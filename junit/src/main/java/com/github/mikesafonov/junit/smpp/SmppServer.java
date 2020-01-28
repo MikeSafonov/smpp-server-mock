@@ -6,6 +6,8 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Documented
 public @interface SmppServer {
+    int RANDOM_PORT = -1;
+
     String systemId() default MockSmppServer.DEFAULT_SYSTEM_ID;
 
     String password() default MockSmppServer.DEFAULT_PASSWORD;
