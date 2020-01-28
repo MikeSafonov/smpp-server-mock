@@ -37,12 +37,29 @@ public class MockSmppServer {
     public MockSmppServer(int port, String systemId, String password) {
         this.port = port;
         this.systemId = systemId;
-        SmppServerConfiguration configuration = new SmppServerConfiguration();
-        configuration.setPort(port);
-        configuration.setSystemId(systemId);
-
         this.handler = new MockSmppServerHandler(systemId, password);
-        smppServer = new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool());
+        this.smppServer = new DefaultSmppServer(new MockSmppServerConfiguration(port, systemId), handler, Executors.newCachedThreadPool());
+    }
+
+    public MockSmppServer(int port, String systemId, String password, MockSmppServerConfiguration configuration) {
+        this.port = port;
+        this.systemId = systemId;
+        this.handler = new MockSmppServerHandler(systemId, password);
+        this.smppServer = new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool());
+    }
+
+    public MockSmppServer(int port, String systemId, MockSmppServerHandler handler, MockSmppServerConfiguration configuration) {
+        this.port = port;
+        this.systemId = systemId;
+        this.handler = handler;
+        this.smppServer = new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool());
+    }
+
+    public MockSmppServer(int port, String systemId, MockSmppServerHandler handler, DefaultSmppServer smppServer) {
+        this.port = port;
+        this.systemId = systemId;
+        this.handler = handler;
+        this.smppServer = smppServer;
     }
 
     public void start() {

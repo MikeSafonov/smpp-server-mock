@@ -18,10 +18,14 @@ public class MockSmppServerHandler implements SmppServerHandler {
     private final String password;
 
     public MockSmppServerHandler(String systemId, String password) {
+        this(systemId, password, new QueueSmppSessionHandler());
+    }
+
+    public MockSmppServerHandler(String systemId, String password, QueueSmppSessionHandler sessionHandler) {
         this.systemId = systemId;
         this.password = password;
         sessions = new HashSet<>();
-        sessionHandler = new QueueSmppSessionHandler();
+        this.sessionHandler = sessionHandler;
     }
 
     @Override
