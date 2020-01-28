@@ -1,6 +1,4 @@
 dependencies {
     compileOnly("org.junit.jupiter:junit-jupiter-api:5.5.2")
     implementation(project(":core"))
-
-    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
 }
