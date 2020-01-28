@@ -1,0 +1,4 @@
+dependencies {
+    implementation("org.restcomm.smpp:ch-smpp:5.1.0-113")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+}

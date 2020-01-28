@@ -25,7 +25,8 @@ public class MockSmppServerHandler implements SmppServerHandler {
     }
 
     @Override
-    public void sessionBindRequested(Long sessionId, SmppSessionConfiguration sessionConfiguration, BaseBind bindRequest) throws SmppProcessingException {
+    public void sessionBindRequested(Long sessionId, SmppSessionConfiguration sessionConfiguration,
+                                     BaseBind bindRequest) throws SmppProcessingException {
         verifySystemId(bindRequest.getSystemId());
         verifyPassword(bindRequest.getPassword());
     }

@@ -1,2 +1,3 @@
 rootProject.name = 'junit-smpp-extension'
 
+include "core", "junit"

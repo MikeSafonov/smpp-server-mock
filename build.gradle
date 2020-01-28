@@ -1,143 +1,148 @@
 buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
     configurations.maybeCreate("pitest")
     dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
         classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
         pitest 'org.pitest:pitest-junit5-plugin:0.11'
     }
 }
-
-plugins {
-    id "java"
-    id "jacoco"
-    id "org.sonarqube" version "2.8"
-}
-
-apply plugin: "java-library"
-apply plugin: "maven"
-apply plugin: "signing"
-apply plugin: "info.solidsoft.pitest"
-
-sourceCompatibility = '1.8'
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
     gradleVersion = '6.1'
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: "java"
+    apply plugin: "jacoco"
+    apply plugin: "org.sonarqube"
+    apply plugin: "info.solidsoft.pitest"
 
-group = "com.github.mikesafonov"
-version "1.0.0"
+    sourceCompatibility = '1.8'
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-jar {
-    enabled = true
-}
+    repositories {
+        mavenCentral()
+    }
 
-dependencies {
-    compileOnly("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    implementation("org.restcomm.smpp:ch-smpp:5.1.0-113")
+    group = "com.github.mikesafonov"
+    version "1.0.0"
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
-}
+    javadoc {
+        options.encoding = 'UTF-8'
+    }
 
-task sourceJar(type: Jar) {
-    classifier "sources"
-    from sourceSets.main.allJava
-}
+    jacoco {
+        toolVersion = "0.8.3"
+    }
 
-javadoc {
-    options.encoding = 'UTF-8'
-}
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier "javadoc"
-    from javadoc.destinationDir
-}
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
 
-artifacts {
-    archives sourceJar
-    archives javadocJar
-}
-
-signing {
-    sign configurations.archives
-}
-
-jacoco {
-    toolVersion = "0.8.3"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        csv.enabled = false
+    pitest {
+        testPlugin = "junit5"
+        targetClasses = ['com.github.mikesafonov.junit.smpp.*']
+        threads = 4
+        outputFormats = ['HTML', 'XML']
+        enableDefaultIncrementalAnalysis = true
+        timestampedReports = false
+        historyInputLocation = ".pitest/pitHistory.txt"
+        historyOutputLocation = ".pitest/pitHistory.txt"
     }
 }
 
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
 
-pitest {
-    testPlugin = "junit5"
-    targetClasses = ['com.github.mikesafonov.junit.smpp.*']
-    threads = 4
-    outputFormats = ['HTML', 'XML']
-    enableDefaultIncrementalAnalysis = true
-    timestampedReports = false
-    historyInputLocation = ".pitest/pitHistory.txt"
-    historyOutputLocation = ".pitest/pitHistory.txt"
-}
+configure(subprojects.findAll { it.name != 'core' }) {
+    apply plugin: "java-library"
+    apply plugin: "maven"
+    apply plugin: "signing"
 
+    jar {
+        enabled = true
+    }
 
-// Build, sign, and upload
-uploadArchives {
-    repositories {
-        mavenDeployer {
+    task sourceJar(type: Jar) {
+        classifier "sources"
+        from sourceSets.main.allJava
+    }
 
-            // Sign POM
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    javadoc {
+        options.encoding = 'UTF-8'
+    }
 
-            // Destination
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier "javadoc"
+        from javadoc.destinationDir
+    }
 
-            // Add required metadata to POM
-            pom.project {
-                name "junit-smpp-extension"
-                packaging "jar"
-                description "JUnit 5 extension to test smpp connection"
-                url "https://github.com/MikeSafonov/junit-smpp-extension"
-                organization {
-                    name "com.github.mikesafonov"
-                    url "https://github.com/MikeSafonov"
+    artifacts {
+        archives sourceJar
+        archives javadocJar
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    // Build, sign, and upload
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+
+                // Sign POM
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                // Destination
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
-                issueManagement {
-                    system "GitHub"
-                    url "https://github.com/MikeSafonov/junit-smpp-extension/issues"
-                }
-                licenses {
-                    license {
-                        name "MIT"
-                        url "https://github.com/MikeSafonov/junit-smpp-extension/blob/master/LICENSE"
-                        distribution "repo"
-                    }
-                }
-                scm {
+
+                // Add required metadata to POM
+                pom.project {
+                    name "${projectName}"
+                    packaging "jar"
+                    description "${projectDescription}"
                     url "https://github.com/MikeSafonov/junit-smpp-extension"
-                    connection "scm:git:git://github.com/MikeSafonov/junit-smpp-extension.git"
-                    developerConnection "scm:git:ssh://git@github.com:MikeSafonov/junit-smpp-extension.git"
-                }
-                developers {
-                    developer {
-                        name "Mike Safonov"
-                        organization "com.github.mikesafonov"
-                        organizationUrl "https://github.com/MikeSafonov"
+                    organization {
+                        name "com.github.mikesafonov"
+                        url "https://github.com/MikeSafonov"
+                    }
+                    issueManagement {
+                        system "GitHub"
+                        url "https://github.com/MikeSafonov/junit-smpp-extension/issues"
+                    }
+                    licenses {
+                        license {
+                            name "MIT"
+                            url "https://github.com/MikeSafonov/junit-smpp-extension/blob/master/LICENSE"
+                            distribution "repo"
+                        }
+                    }
+                    scm {
+                        url "https://github.com/MikeSafonov/junit-smpp-extension"
+                        connection "scm:git:git://github.com/MikeSafonov/junit-smpp-extension.git"
+                        developerConnection "scm:git:ssh://git@github.com:MikeSafonov/junit-smpp-extension.git"
+                    }
+                    developers {
+                        developer {
+                            name "Mike Safonov"
+                            organization "com.github.mikesafonov"
+                            organizationUrl "https://github.com/MikeSafonov"
+                        }
                     }
                 }
             }
