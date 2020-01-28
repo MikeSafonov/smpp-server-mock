@@ -66,10 +66,8 @@ public class MockSmppServer {
             return;
         }
         try {
-            System.out.println("Starting smpp server on port " + port);
             smppServer.start();
             started = true;
-            System.out.println("Server started on port " + port);
         } catch (SmppChannelException e) {
             throw new RuntimeException(e);
         }
@@ -77,7 +75,6 @@ public class MockSmppServer {
 
     public void stop() {
         smppServer.stop();
-        System.out.println("Server stopped on port " + port);
     }
 
     public int getPort() {
