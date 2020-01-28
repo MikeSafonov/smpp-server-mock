@@ -5,7 +5,7 @@ import com.cloudhopper.smpp.type.SmppChannelException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -64,6 +64,7 @@ class MockSmppServerTest {
             MockSmppServer server = new MockSmppServer(port, systemId, handler, defaultSmppServer);
             server.start();
 
+            assertTrue(server.isStarted());
             verify(defaultSmppServer, times(1)).start();
         }
 
@@ -78,6 +79,7 @@ class MockSmppServerTest {
             server.start();
             server.start();
 
+            assertTrue(server.isStarted());
             verify(defaultSmppServer, times(1)).start();
         }
     }
@@ -94,6 +96,7 @@ class MockSmppServerTest {
             server.stop();
 
             verify(defaultSmppServer, times(1)).stop();
+            assertFalse(server.isStarted());
         }
     }
 }

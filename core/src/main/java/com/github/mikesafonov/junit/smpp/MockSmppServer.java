@@ -1,6 +1,5 @@
 package com.github.mikesafonov.junit.smpp;
 
-import com.cloudhopper.smpp.SmppServerConfiguration;
 import com.cloudhopper.smpp.impl.DefaultSmppServer;
 import com.cloudhopper.smpp.pdu.CancelSm;
 import com.cloudhopper.smpp.pdu.PduRequest;
@@ -103,5 +102,9 @@ public class MockSmppServer {
 
     public List<CancelSm> getCancelSmMessages() {
         return new ArrayList<>(handler.getSessionHandler().getCancelSms());
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 }
