@@ -53,6 +53,21 @@ public class ExtensionTest {
 
     @Nested
     @ExtendWith(SmppExtension.class)
+    class WithCustomName {
+        @SmppServer(name = "customName", port = SmppServer.RANDOM_PORT)
+        MockSmppServer mockSmppServer;
+
+        @Test
+        void shouldRunDefault() {
+            assertNotEquals(MockSmppServer.DEFAULT_PORT, mockSmppServer.getPort());
+            assertEquals(MockSmppServer.DEFAULT_SYSTEM_ID, mockSmppServer.getSystemId());
+            assertEquals("customName", mockSmppServer.getName());
+            assertTrue(mockSmppServer.isStarted());
+        }
+    }
+
+    @Nested
+    @ExtendWith(SmppExtension.class)
     class RunTwo {
         @SmppServer(port = SmppServer.RANDOM_PORT)
         MockSmppServer serverOne;

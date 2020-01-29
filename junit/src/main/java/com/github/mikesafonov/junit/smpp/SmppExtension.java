@@ -31,9 +31,9 @@ public class SmppExtension implements TestInstancePostProcessor, AfterAllCallbac
     @Override
     public void afterAll(ExtensionContext context) {
         for (MockSmppServer smppServer : smppServers) {
-            logger.info("Stopping server on port: " + smppServer.getPort() + " with systemId: " + smppServer.getSystemId());
+            logger.info("Stopping " + smppServer.getDescription());
             smppServer.stop();
-            logger.info("Server on port: " + smppServer.getPort() + " stopped");
+            logger.info(smppServer.getDescription() + " stopped");
         }
     }
 
@@ -43,8 +43,16 @@ public class SmppExtension implements TestInstancePostProcessor, AfterAllCallbac
         if (port == SmppServer.RANDOM_PORT) {
             port = findRandomOpenPortOnAllLocalInterfaces();
         }
-        logger.info("Creating server on port: " + port + " with systemId: " + annotation.systemId());
-        MockSmppServer server = new MockSmppServer(port, annotation.systemId(), annotation.password());
+        MockSmppServer server;
+        String name = annotation.name();
+        if (name.isEmpty()) {
+            logger.info("Creating server on port: " + port + " with systemId: " + annotation.systemId());
+            server = new MockSmppServer(port, annotation.systemId(), annotation.password());
+        } else {
+            logger.info("Creating server " + name + " on port: " + port + " with systemId: " + annotation.systemId());
+            server = new MockSmppServer(name, port, annotation.systemId(), annotation.password());
+        }
+
         smppServers.add(server);
         field.setAccessible(true);
         field.set(testInstance, server);
@@ -53,9 +61,9 @@ public class SmppExtension implements TestInstancePostProcessor, AfterAllCallbac
     @Override
     public void beforeEach(ExtensionContext context) {
         for (MockSmppServer smppServer : smppServers) {
-            logger.info("Starting server on port: " + smppServer.getPort() + " with systemId: " + smppServer.getSystemId());
+            logger.info("Starting " + smppServer.getDescription());
             smppServer.start();
-            logger.info("Server on port: " + smppServer.getPort() + " started");
+            logger.info(smppServer.getDescription() + " started");
         }
     }
 }

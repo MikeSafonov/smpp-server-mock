@@ -8,6 +8,8 @@ import java.lang.annotation.*;
 public @interface SmppServer {
     int RANDOM_PORT = -1;
 
+    String name() default "";
+
     String systemId() default MockSmppServer.DEFAULT_SYSTEM_ID;
 
     String password() default MockSmppServer.DEFAULT_PASSWORD;
