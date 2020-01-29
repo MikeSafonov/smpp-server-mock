@@ -23,6 +23,7 @@ class MockSmppServerTest {
             assertUUID(server.getName());
             assertEquals(2077, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
+            assertEquals("password", server.getPassword());
         }
 
         @Test
@@ -32,6 +33,7 @@ class MockSmppServerTest {
             assertUUID(server.getName());
             assertNotEquals(2077, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
+            assertEquals("password", server.getPassword());
         }
 
         @Test
@@ -42,6 +44,7 @@ class MockSmppServerTest {
             assertEquals(smppName, server.getName());
             assertEquals(2077, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
+            assertEquals("password", server.getPassword());
         }
 
         @Test
@@ -52,6 +55,7 @@ class MockSmppServerTest {
             assertUUID(server.getName());
             assertEquals(port, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
+            assertEquals("password", server.getPassword());
         }
 
         @Test
@@ -63,6 +67,7 @@ class MockSmppServerTest {
             assertEquals(smppName, server.getName());
             assertEquals(port, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
+            assertEquals("password", server.getPassword());
         }
 
         @Test
@@ -74,6 +79,7 @@ class MockSmppServerTest {
             assertUUID(server.getName());
             assertEquals(2077, server.getPort());
             assertEquals(systemId, server.getSystemId());
+            assertEquals(password, server.getPassword());
         }
 
         @Test
@@ -86,6 +92,7 @@ class MockSmppServerTest {
             assertEquals(smppName, server.getName());
             assertEquals(2077, server.getPort());
             assertEquals(systemId, server.getSystemId());
+            assertEquals(password, server.getPassword());
         }
 
         @Test
@@ -98,9 +105,10 @@ class MockSmppServerTest {
             assertUUID(server.getName());
             assertEquals(port, server.getPort());
             assertEquals(systemId, server.getSystemId());
+            assertEquals(password, server.getPassword());
         }
 
-        private void assertUUID(String uuid){
+        private void assertUUID(String uuid) {
             assertDoesNotThrow(() -> UUID.fromString(uuid));
         }
     }
@@ -112,8 +120,9 @@ class MockSmppServerTest {
             DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
             MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
             String systemId = "customId";
+            String password = "customPassword";
             int port = 3000;
-            MockSmppServer server = new MockSmppServer(port, systemId, handler, defaultSmppServer);
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
             server.start();
 
             assertTrue(server.isStarted());
@@ -125,8 +134,9 @@ class MockSmppServerTest {
             DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
             MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
             String systemId = "customId";
+            String password = "customPassword";
             int port = 3000;
-            MockSmppServer server = new MockSmppServer(port, systemId, handler, defaultSmppServer);
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
             server.start();
             server.start();
             server.start();
@@ -143,8 +153,9 @@ class MockSmppServerTest {
             DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
             MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
             String systemId = "customId";
+            String password = "customPassword";
             int port = 3000;
-            MockSmppServer server = new MockSmppServer(port, systemId, handler, defaultSmppServer);
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
             server.stop();
 
             verify(defaultSmppServer, times(1)).stop();
