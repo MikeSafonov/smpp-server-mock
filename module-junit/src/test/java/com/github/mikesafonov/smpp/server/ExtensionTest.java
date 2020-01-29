@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ExtensionTest {
 
     @Nested
-    @ExtendWith(SmppExtension.class)
+    @ExtendWith(MockSmppExtension.class)
     class DefaultServer {
         @SmppServer
         MockSmppServer mockSmppServer;
@@ -24,7 +24,7 @@ public class ExtensionTest {
     }
 
     @Nested
-    @ExtendWith(SmppExtension.class)
+    @ExtendWith(MockSmppExtension.class)
     class RandomPort {
         @SmppServer(port = MockSmppServer.RANDOM_PORT)
         MockSmppServer mockSmppServer;
@@ -38,7 +38,7 @@ public class ExtensionTest {
     }
 
     @Nested
-    @ExtendWith(SmppExtension.class)
+    @ExtendWith(MockSmppExtension.class)
     class WithConfigured {
         @SmppServer(port = MockSmppServer.RANDOM_PORT, systemId = "customSystemId", password = "anotherPassword")
         MockSmppServer mockSmppServer;
@@ -52,7 +52,7 @@ public class ExtensionTest {
     }
 
     @Nested
-    @ExtendWith(SmppExtension.class)
+    @ExtendWith(MockSmppExtension.class)
     class WithCustomName {
         @SmppServer(name = "customName", port = MockSmppServer.RANDOM_PORT)
         MockSmppServer mockSmppServer;
@@ -67,7 +67,7 @@ public class ExtensionTest {
     }
 
     @Nested
-    @ExtendWith(SmppExtension.class)
+    @ExtendWith(MockSmppExtension.class)
     class RunTwo {
         @SmppServer(port = MockSmppServer.RANDOM_PORT)
         MockSmppServer serverOne;

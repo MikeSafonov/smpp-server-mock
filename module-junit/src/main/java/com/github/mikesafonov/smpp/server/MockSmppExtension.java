@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class SmppExtension implements TestInstancePostProcessor, AfterAllCallback, BeforeEachCallback {
-    private static final Logger logger = Logger.getLogger(SmppExtension.class.getName());
+public class MockSmppExtension implements TestInstancePostProcessor, AfterAllCallback, BeforeEachCallback {
+    private static final Logger logger = Logger.getLogger(MockSmppExtension.class.getName());
 
     private final Set<MockSmppServer> smppServers = new HashSet<>();
 
