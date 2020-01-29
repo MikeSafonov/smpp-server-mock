@@ -26,7 +26,7 @@ public class ExtensionTest {
     @Nested
     @ExtendWith(SmppExtension.class)
     class RandomPort {
-        @SmppServer(port = SmppServer.RANDOM_PORT)
+        @SmppServer(port = MockSmppServer.RANDOM_PORT)
         MockSmppServer mockSmppServer;
 
         @Test
@@ -40,7 +40,7 @@ public class ExtensionTest {
     @Nested
     @ExtendWith(SmppExtension.class)
     class WithConfigured {
-        @SmppServer(port = SmppServer.RANDOM_PORT, systemId = "customSystemId", password = "anotherPassword")
+        @SmppServer(port = MockSmppServer.RANDOM_PORT, systemId = "customSystemId", password = "anotherPassword")
         MockSmppServer mockSmppServer;
 
         @Test
@@ -54,7 +54,7 @@ public class ExtensionTest {
     @Nested
     @ExtendWith(SmppExtension.class)
     class WithCustomName {
-        @SmppServer(name = "customName", port = SmppServer.RANDOM_PORT)
+        @SmppServer(name = "customName", port = MockSmppServer.RANDOM_PORT)
         MockSmppServer mockSmppServer;
 
         @Test
@@ -69,9 +69,9 @@ public class ExtensionTest {
     @Nested
     @ExtendWith(SmppExtension.class)
     class RunTwo {
-        @SmppServer(port = SmppServer.RANDOM_PORT)
+        @SmppServer(port = MockSmppServer.RANDOM_PORT)
         MockSmppServer serverOne;
-        @SmppServer(port = SmppServer.RANDOM_PORT)
+        @SmppServer(port = MockSmppServer.RANDOM_PORT)
         MockSmppServer serverTwo;
 
         @Test

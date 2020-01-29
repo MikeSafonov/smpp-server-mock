@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import static com.github.mikesafonov.junit.smpp.TestUtils.findRandomOpenPortOnAllLocalInterfaces;
-
 public class SmppExtension implements TestInstancePostProcessor, AfterAllCallback, BeforeEachCallback {
     private static final Logger logger = Logger.getLogger(SmppExtension.class.getName());
 
@@ -40,9 +38,6 @@ public class SmppExtension implements TestInstancePostProcessor, AfterAllCallbac
     private void createServer(Object testInstance, Field field) throws IllegalAccessException {
         SmppServer annotation = field.getAnnotation(SmppServer.class);
         int port = annotation.port();
-        if (port == SmppServer.RANDOM_PORT) {
-            port = findRandomOpenPortOnAllLocalInterfaces();
-        }
         MockSmppServer server;
         String name = annotation.name();
         if (name.isEmpty()) {
