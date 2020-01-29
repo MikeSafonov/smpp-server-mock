@@ -22,35 +22,22 @@ subprojects {
     apply plugin: "jacoco"
     apply plugin: "org.sonarqube"
     apply plugin: "info.solidsoft.pitest"
+    apply plugin: "java-library"
+    apply plugin: "maven"
+    apply plugin: "signing"
 
     sourceCompatibility = '1.8'
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-    repositories {
-        mavenCentral()
-    }
-
     group = "com.github.mikesafonov"
     version "1.0.0"
 
-    javadoc {
-        options.encoding = 'UTF-8'
+    jar {
+        enabled = true
     }
 
-    jacoco {
-        toolVersion = "0.8.3"
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.enabled = true
-            csv.enabled = false
-        }
-    }
-
-    test {
-        useJUnitPlatform()
-        finalizedBy jacocoTestReport
+    repositories {
+        mavenCentral()
     }
 
     dependencies {
@@ -60,28 +47,6 @@ subprojects {
         testImplementation("org.assertj:assertj-core:3.11.1")
         testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
         testImplementation("org.mockito:mockito-core:2.28.2")
-    }
-
-    pitest {
-        testPlugin = "junit5"
-        targetClasses = ['com.github.mikesafonov.smpp.server.*']
-        threads = 4
-        outputFormats = ['HTML', 'XML']
-        enableDefaultIncrementalAnalysis = true
-        timestampedReports = false
-        historyInputLocation = ".pitest/pitHistory.txt"
-        historyOutputLocation = ".pitest/pitHistory.txt"
-    }
-}
-
-
-configure(subprojects.findAll { it.name != 'module-core' }) {
-    apply plugin: "java-library"
-    apply plugin: "maven"
-    apply plugin: "signing"
-
-    jar {
-        enabled = true
     }
 
     task sourceJar(type: Jar) {
@@ -157,4 +122,34 @@ configure(subprojects.findAll { it.name != 'module-core' }) {
             }
         }
     }
+
+    jacoco {
+        toolVersion = "0.8.3"
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+
+    pitest {
+        testPlugin = "junit5"
+        targetClasses = ['com.github.mikesafonov.smpp.server.*']
+        threads = 4
+        outputFormats = ['HTML', 'XML']
+        enableDefaultIncrementalAnalysis = true
+        timestampedReports = false
+        historyInputLocation = ".pitest/pitHistory.txt"
+        historyOutputLocation = ".pitest/pitHistory.txt"
+    }
 }
+
+
+
