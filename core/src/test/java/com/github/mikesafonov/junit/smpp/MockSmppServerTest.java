@@ -26,6 +26,15 @@ class MockSmppServerTest {
         }
 
         @Test
+        void shouldCreateDefaultWithRandomPort() {
+            MockSmppServer server = new MockSmppServer(MockSmppServer.RANDOM_PORT);
+
+            assertUUID(server.getName());
+            assertNotEquals(2077, server.getPort());
+            assertEquals("mockSmppServer", server.getSystemId());
+        }
+
+        @Test
         void shouldCreateWithName() {
             String smppName = "smppName";
             MockSmppServer server = new MockSmppServer(smppName);

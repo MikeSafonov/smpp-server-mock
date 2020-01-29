@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 
 public class MockSmppServer {
     static final int DEFAULT_PORT = 2077;
+    static final int RANDOM_PORT = -1;
+
     static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
     static final String DEFAULT_PASSWORD = "password";
 
@@ -48,11 +50,19 @@ public class MockSmppServer {
     }
 
     public MockSmppServer(int port, String systemId, String password) {
-        this(port, systemId, password, new MockSmppServerConfiguration(port, systemId));
+        this.name = randomUuidName();
+        this.port = checkPortOrGetFree(port);
+        this.systemId = systemId;
+        this.handler = new MockSmppServerHandler(systemId, password);
+        this.smppServer = new DefaultSmppServer(new MockSmppServerConfiguration(this.port, systemId), handler, Executors.newCachedThreadPool());
     }
 
     public MockSmppServer(String name, int port, String systemId, String password) {
-        this(name, port, systemId, password, new MockSmppServerConfiguration(port, systemId));
+        this.name = name;
+        this.port = checkPortOrGetFree(port);
+        this.systemId = systemId;
+        this.handler = new MockSmppServerHandler(systemId, password);
+        this.smppServer = new DefaultSmppServer(new MockSmppServerConfiguration(this.port, systemId), handler, Executors.newCachedThreadPool());
     }
 
     public MockSmppServer(int port, String systemId, String password, MockSmppServerConfiguration configuration) {
@@ -133,6 +143,14 @@ public class MockSmppServer {
 
     public String getDescription() {
         return "Smpp server[name: " + name + ", port: " + port + ", systemId: " + systemId + "]";
+    }
+
+    private static int checkPortOrGetFree(int port) {
+        if (port == RANDOM_PORT) {
+            return PortUtils.findRandomOpenPortOnAllLocalInterfaces();
+        } else {
+            return port;
+        }
     }
 
     private static String randomUuidName() {
