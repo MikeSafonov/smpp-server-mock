@@ -1,4 +1,4 @@
-package com.github.mikesafonov.junit.smpp;
+package com.github.mikesafonov.smpp.server;
 
 import java.lang.annotation.*;
 

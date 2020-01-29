@@ -1,4 +1,4 @@
-package com.github.mikesafonov.junit.smpp;
+package com.github.mikesafonov.smpp.server;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

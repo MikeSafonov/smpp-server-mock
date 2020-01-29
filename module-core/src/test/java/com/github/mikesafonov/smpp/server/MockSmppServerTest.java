@@ -1,4 +1,4 @@
-package com.github.mikesafonov.junit.smpp;
+package com.github.mikesafonov.smpp.server;
 
 import com.cloudhopper.smpp.impl.DefaultSmppServer;
 import com.cloudhopper.smpp.type.SmppChannelException;

@@ -61,7 +61,7 @@ subprojects {
 
     pitest {
         testPlugin = "junit5"
-        targetClasses = ['com.github.mikesafonov.junit.smpp.*']
+        targetClasses = ['com.github.mikesafonov.smpp.server.*']
         threads = 4
         outputFormats = ['HTML', 'XML']
         enableDefaultIncrementalAnalysis = true

@@ -1,4 +1,4 @@
-package com.github.mikesafonov.junit.smpp;
+package com.github.mikesafonov.smpp.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

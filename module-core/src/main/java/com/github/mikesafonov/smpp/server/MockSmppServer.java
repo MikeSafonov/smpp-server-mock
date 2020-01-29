@@ -1,4 +1,4 @@
-package com.github.mikesafonov.junit.smpp;
+package com.github.mikesafonov.smpp.server;
 
 import com.cloudhopper.smpp.impl.DefaultSmppServer;
 import com.cloudhopper.smpp.pdu.CancelSm;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import static com.github.mikesafonov.junit.smpp.Utils.checkPortOrGetFree;
-import static com.github.mikesafonov.junit.smpp.Utils.randomUuidName;
+import static com.github.mikesafonov.smpp.server.Utils.checkPortOrGetFree;
+import static com.github.mikesafonov.smpp.server.Utils.randomUuidName;
 
 /**
  * SMPP server
