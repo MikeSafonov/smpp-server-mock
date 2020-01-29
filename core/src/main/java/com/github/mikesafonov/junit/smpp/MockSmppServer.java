@@ -8,6 +8,7 @@ import com.cloudhopper.smpp.type.SmppChannelException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 
 public class MockSmppServer {
@@ -15,6 +16,7 @@ public class MockSmppServer {
     static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
     static final String DEFAULT_PASSWORD = "password";
 
+    private final String name;
     private final int port;
     private final String systemId;
     private final MockSmppServerHandler handler;
@@ -22,25 +24,43 @@ public class MockSmppServer {
     private boolean started = false;
 
     public MockSmppServer() {
-        this(DEFAULT_PORT);
+        this(randomUuidName());
+    }
+
+    public MockSmppServer(String name) {
+        this(name, DEFAULT_PORT);
     }
 
     public MockSmppServer(int port) {
-        this(port, DEFAULT_SYSTEM_ID, DEFAULT_PASSWORD);
+        this(randomUuidName(), port);
+    }
+
+    public MockSmppServer(String name, int port) {
+        this(name, port, DEFAULT_SYSTEM_ID, DEFAULT_PASSWORD);
     }
 
     public MockSmppServer(String systemId, String password) {
-        this(DEFAULT_PORT, systemId, password);
+        this(randomUuidName(), systemId, password);
+    }
+
+    public MockSmppServer(String name, String systemId, String password) {
+        this(name, DEFAULT_PORT, systemId, password);
     }
 
     public MockSmppServer(int port, String systemId, String password) {
-        this.port = port;
-        this.systemId = systemId;
-        this.handler = new MockSmppServerHandler(systemId, password);
-        this.smppServer = new DefaultSmppServer(new MockSmppServerConfiguration(port, systemId), handler, Executors.newCachedThreadPool());
+        this(port, systemId, password, new MockSmppServerConfiguration(port, systemId));
+    }
+
+    public MockSmppServer(String name, int port, String systemId, String password) {
+        this(name, port, systemId, password, new MockSmppServerConfiguration(port, systemId));
     }
 
     public MockSmppServer(int port, String systemId, String password, MockSmppServerConfiguration configuration) {
+        this(randomUuidName(), port, systemId, password, configuration);
+    }
+
+    public MockSmppServer(String name, int port, String systemId, String password, MockSmppServerConfiguration configuration) {
+        this.name = name;
         this.port = port;
         this.systemId = systemId;
         this.handler = new MockSmppServerHandler(systemId, password);
@@ -48,13 +68,15 @@ public class MockSmppServer {
     }
 
     public MockSmppServer(int port, String systemId, MockSmppServerHandler handler, MockSmppServerConfiguration configuration) {
-        this.port = port;
-        this.systemId = systemId;
-        this.handler = handler;
-        this.smppServer = new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool());
+        this(port, systemId, handler, new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool()));
     }
 
     public MockSmppServer(int port, String systemId, MockSmppServerHandler handler, DefaultSmppServer smppServer) {
+        this(randomUuidName(), port, systemId, handler, smppServer);
+    }
+
+    public MockSmppServer(String name, int port, String systemId, MockSmppServerHandler handler, DefaultSmppServer smppServer) {
+        this.name = name;
         this.port = port;
         this.systemId = systemId;
         this.handler = handler;
@@ -103,5 +125,13 @@ public class MockSmppServer {
 
     public boolean isStarted() {
         return started;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private static String randomUuidName() {
+        return UUID.randomUUID().toString();
     }
 }
