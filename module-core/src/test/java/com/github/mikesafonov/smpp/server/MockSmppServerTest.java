@@ -21,7 +21,6 @@ class MockSmppServerTest {
             MockSmppServer server = new MockSmppServer();
 
             assertUUID(server.getName());
-            assertEquals(2077, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
             assertEquals("password", server.getPassword());
         }
@@ -31,7 +30,6 @@ class MockSmppServerTest {
             MockSmppServer server = new MockSmppServer(MockSmppServer.RANDOM_PORT);
 
             assertUUID(server.getName());
-            assertNotEquals(2077, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
             assertEquals("password", server.getPassword());
         }
@@ -42,7 +40,6 @@ class MockSmppServerTest {
             MockSmppServer server = new MockSmppServer(smppName);
 
             assertEquals(smppName, server.getName());
-            assertEquals(2077, server.getPort());
             assertEquals("mockSmppServer", server.getSystemId());
             assertEquals("password", server.getPassword());
         }
@@ -77,7 +74,6 @@ class MockSmppServerTest {
             MockSmppServer server = new MockSmppServer(systemId, password);
 
             assertUUID(server.getName());
-            assertEquals(2077, server.getPort());
             assertEquals(systemId, server.getSystemId());
             assertEquals(password, server.getPassword());
         }
@@ -90,7 +86,6 @@ class MockSmppServerTest {
             MockSmppServer server = new MockSmppServer(smppName, systemId, password);
 
             assertEquals(smppName, server.getName());
-            assertEquals(2077, server.getPort());
             assertEquals(systemId, server.getSystemId());
             assertEquals(password, server.getPassword());
         }

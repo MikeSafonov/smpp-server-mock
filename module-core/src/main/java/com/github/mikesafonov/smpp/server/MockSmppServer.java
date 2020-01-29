@@ -20,7 +20,6 @@ import static com.github.mikesafonov.smpp.server.Utils.randomUuidName;
  * @author Mike Safonov
  */
 public class MockSmppServer {
-    static final int DEFAULT_PORT = 2077;
     static final int RANDOM_PORT = -1;
 
     static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
@@ -44,7 +43,7 @@ public class MockSmppServer {
     }
 
     public MockSmppServer(String name) {
-        this(name, DEFAULT_PORT);
+        this(name, RANDOM_PORT);
     }
 
     public MockSmppServer(int port) {
@@ -60,7 +59,7 @@ public class MockSmppServer {
     }
 
     public MockSmppServer(String name, String systemId, String password) {
-        this(name, DEFAULT_PORT, systemId, password);
+        this(name, RANDOM_PORT, systemId, password);
     }
 
     public MockSmppServer(int port, String systemId, String password) {
