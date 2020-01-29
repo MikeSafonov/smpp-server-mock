@@ -12,6 +12,11 @@ import com.cloudhopper.smpp.type.UnrecoverablePduException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * {@link SmppSessionHandler} for {@link MockSmppServer}.
+ *
+ * @author Mike Safonov
+ */
 public class QueueSmppSessionHandler implements SmppSessionHandler {
 
     private final BlockingQueue<PduRequest> receivedPduRequests;
