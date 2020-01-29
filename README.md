@@ -1,1 +1,1 @@
-# junit-smpp-extension
+# smpp-server-mock

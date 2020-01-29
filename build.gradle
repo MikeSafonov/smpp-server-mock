@@ -122,26 +122,26 @@ configure(subprojects.findAll { it.name != 'core' }) {
                     name "${projectName}"
                     packaging "jar"
                     description "${projectDescription}"
-                    url "https://github.com/MikeSafonov/junit-smpp-extension"
+                    url "https://github.com/MikeSafonov/smpp-server-mock"
                     organization {
                         name "com.github.mikesafonov"
                         url "https://github.com/MikeSafonov"
                     }
                     issueManagement {
                         system "GitHub"
-                        url "https://github.com/MikeSafonov/junit-smpp-extension/issues"
+                        url "https://github.com/MikeSafonov/smpp-server-mock/issues"
                     }
                     licenses {
                         license {
                             name "MIT"
-                            url "https://github.com/MikeSafonov/junit-smpp-extension/blob/master/LICENSE"
+                            url "https://github.com/MikeSafonov/smpp-server-mock/blob/master/LICENSE"
                             distribution "repo"
                         }
                     }
                     scm {
-                        url "https://github.com/MikeSafonov/junit-smpp-extension"
-                        connection "scm:git:git://github.com/MikeSafonov/junit-smpp-extension.git"
-                        developerConnection "scm:git:ssh://git@github.com:MikeSafonov/junit-smpp-extension.git"
+                        url "https://github.com/MikeSafonov/smpp-server-mock"
+                        connection "scm:git:git://github.com/MikeSafonov/smpp-server-mock.git"
+                        developerConnection "scm:git:ssh://git@github.com:MikeSafonov/smpp-server-mock.git"
                     }
                     developers {
                         developer {
