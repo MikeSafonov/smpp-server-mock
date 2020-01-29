@@ -131,6 +131,10 @@ public class MockSmppServer {
         return name;
     }
 
+    public String getDescription() {
+        return "Smpp server[name: " + name + ", port: " + port + ", systemId: " + systemId + "]";
+    }
+
     private static String randomUuidName() {
         return UUID.randomUUID().toString();
     }
