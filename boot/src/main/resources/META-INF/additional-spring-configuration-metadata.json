@@ -1,0 +1,12 @@
+{
+  "groups": [
+  ],
+  "properties": [
+    {
+      "sourceType": "com.github.mikesafonov.junit.smpp.MockSmppProperties",
+      "name": "smpp.mocks",
+      "type": "java.util.Map<java.lang.String,com.github.mikesafonov.junit.smpp.MockSmppProperties.SMPP>",
+      "description": "Map of smpp mock servers"
+    }
+  ]
+}
