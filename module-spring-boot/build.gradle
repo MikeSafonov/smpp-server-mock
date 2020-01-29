@@ -9,9 +9,6 @@ dependencies {
 
     compileOnly("org.springframework.cloud:spring-cloud-starter")
 
-    compileOnly("org.projectlombok:lombok:")
-    annotationProcessor("org.projectlombok:lombok")
-
     implementation(project(":module-core"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

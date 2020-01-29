@@ -5,6 +5,7 @@ import com.cloudhopper.smpp.pdu.CancelSm;
 import com.cloudhopper.smpp.pdu.PduRequest;
 import com.cloudhopper.smpp.pdu.SubmitSm;
 import com.cloudhopper.smpp.type.SmppChannelException;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,17 @@ public class MockSmppServer {
     static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
     static final String DEFAULT_PASSWORD = "password";
 
+    @Getter
     private final String name;
+    @Getter
     private final int port;
+    @Getter
     private final String systemId;
+    @Getter
     private final String password;
     private final MockSmppServerHandler handler;
     private final DefaultSmppServer smppServer;
+    @Getter
     private boolean started = false;
 
     public MockSmppServer() {
@@ -126,26 +132,6 @@ public class MockSmppServer {
 
     public void stop() {
         smppServer.stop();
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public String getSystemId() {
-        return systemId;
-    }
-
-    public boolean isStarted() {
-        return started;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public int countMessages() {

@@ -8,6 +8,7 @@ import com.cloudhopper.smpp.pdu.PduResponse;
 import com.cloudhopper.smpp.pdu.SubmitSm;
 import com.cloudhopper.smpp.type.RecoverablePduException;
 import com.cloudhopper.smpp.type.UnrecoverablePduException;
+import lombok.Getter;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -17,6 +18,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  *
  * @author Mike Safonov
  */
+@Getter
 public class QueueSmppSessionHandler implements SmppSessionHandler {
 
     private final BlockingQueue<PduRequest> receivedPduRequests;
@@ -27,18 +29,6 @@ public class QueueSmppSessionHandler implements SmppSessionHandler {
         this.receivedPduRequests = new LinkedBlockingQueue<>();
         this.submitSms = new LinkedBlockingQueue<>();
         this.cancelSms = new LinkedBlockingQueue<>();
-    }
-
-    public BlockingQueue<PduRequest> getReceivedPduRequests() {
-        return receivedPduRequests;
-    }
-
-    public BlockingQueue<SubmitSm> getSubmitSms() {
-        return submitSms;
-    }
-
-    public BlockingQueue<CancelSm> getCancelSms() {
-        return cancelSms;
     }
 
     public int countTotalMessages() {

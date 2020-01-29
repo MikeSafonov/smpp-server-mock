@@ -4,6 +4,7 @@ import com.cloudhopper.smpp.*;
 import com.cloudhopper.smpp.pdu.BaseBind;
 import com.cloudhopper.smpp.pdu.BaseBindResp;
 import com.cloudhopper.smpp.type.SmppProcessingException;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,9 @@ import java.util.Set;
  * @author Mike Safonov
  */
 public class MockSmppServerHandler implements SmppServerHandler {
+    @Getter
     private final Set<SmppServerSession> sessions;
+    @Getter
     private final QueueSmppSessionHandler sessionHandler;
     private final String systemId;
     private final String password;
@@ -67,14 +70,6 @@ public class MockSmppServerHandler implements SmppServerHandler {
     @Override
     public void sessionDestroyed(Long sessionId, SmppServerSession session) {
         sessions.remove(session);
-    }
-
-    public Set<SmppServerSession> getSessions() {
-        return sessions;
-    }
-
-    public QueueSmppSessionHandler getSessionHandler() {
-        return sessionHandler;
     }
 
     private void verifySystemId(String incomingSystemId) throws SmppProcessingException {
