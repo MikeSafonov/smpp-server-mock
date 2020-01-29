@@ -72,7 +72,7 @@ subprojects {
 }
 
 
-configure(subprojects.findAll { it.name != 'core' }) {
+configure(subprojects.findAll { it.name != 'module-core' }) {
     apply plugin: "java-library"
     apply plugin: "maven"
     apply plugin: "signing"
