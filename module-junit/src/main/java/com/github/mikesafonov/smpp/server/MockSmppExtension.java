@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MockSmppExtension implements TestInstancePostProcessor, AfterAllCallback, BeforeEachCallback {
@@ -41,10 +42,10 @@ public class MockSmppExtension implements TestInstancePostProcessor, AfterAllCal
         MockSmppServer server;
         String name = annotation.name();
         if (name.isEmpty()) {
-            logger.info("Creating server on port: " + port + " with systemId: " + annotation.systemId());
+            logger.log(Level.INFO, "Creating server on port: {0} with systemId: {1}", new Object[]{port, annotation.systemId()});
             server = new MockSmppServer(port, annotation.systemId(), annotation.password());
         } else {
-            logger.info("Creating server " + name + " on port: " + port + " with systemId: " + annotation.systemId());
+            logger.log(Level.INFO,"Creating server {0} on port: {1} with systemId: {2}", new Object[]{name, port, annotation.systemId()});
             server = new MockSmppServer(name, port, annotation.systemId(), annotation.password());
         }
 
