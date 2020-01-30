@@ -23,7 +23,7 @@ public class Utils {
         return UUID.randomUUID().toString();
     }
 
-    synchronized static Integer findRandomOpenPortOnAllLocalInterfaces() {
+    static synchronized Integer findRandomOpenPortOnAllLocalInterfaces() {
         try (ServerSocket socket = new ServerSocket(0)) {
             return socket.getLocalPort();
         } catch (IOException e) {

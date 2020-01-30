@@ -27,14 +27,8 @@ public class MockSmppServerHolder {
     public void stopAll() {
         for (MockSmppServer server : servers) {
             log.info("Stopping " + server.getDescription());
-            System.out.println("Stopping " + server.getDescription());
             server.stop();
             log.info(server.getDescription() + " stopped");
-            System.out.println(server.getDescription() + " stopped");
         }
-    }
-
-    public void clear() {
-
     }
 }

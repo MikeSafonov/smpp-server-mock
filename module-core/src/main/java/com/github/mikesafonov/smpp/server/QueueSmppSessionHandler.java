@@ -9,6 +9,7 @@ import com.cloudhopper.smpp.pdu.SubmitSm;
 import com.cloudhopper.smpp.type.RecoverablePduException;
 import com.cloudhopper.smpp.type.UnrecoverablePduException;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,6 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  *
  * @author Mike Safonov
  */
+@Slf4j
 @Getter
 public class QueueSmppSessionHandler implements SmppSessionHandler {
 
@@ -54,29 +56,32 @@ public class QueueSmppSessionHandler implements SmppSessionHandler {
 
     @Override
     public void firePduRequestExpired(PduRequest pduRequest) {
+        // nothing
     }
 
     @Override
     public void fireExpectedPduResponseReceived(PduAsyncResponse pduAsyncResponse) {
+        // nothing
     }
 
     @Override
     public void fireUnexpectedPduResponseReceived(PduResponse pduResponse) {
+        // nothing
     }
 
     @Override
     public void fireUnrecoverablePduException(UnrecoverablePduException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
     }
 
     @Override
     public void fireRecoverablePduException(RecoverablePduException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
     }
 
     @Override
     public void fireUnknownThrowable(Throwable t) {
-        t.printStackTrace();
+        log.error(t.getMessage(), t);
     }
 
     @Override
