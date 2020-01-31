@@ -11,10 +11,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 class SubmitSmCharsetUtil {
 
-    static String toText(SubmitSm submitSm) {
-        return toText(submitSm, CharsetUtil.CHARSET_GSM);
-    }
-
     static String toText(SubmitSm submitSm, Charset charset) {
         byte[] bytes = submitSm.getShortMessage();
         return CharsetUtil.decode(bytes, charset);
