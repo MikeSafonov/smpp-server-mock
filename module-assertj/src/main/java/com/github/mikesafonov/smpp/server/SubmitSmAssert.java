@@ -51,8 +51,7 @@ public class SubmitSmAssert extends AbstractAssert<SubmitSmAssert, SubmitSm> {
 
     public SubmitSmAssert hasTextWithCharset(String text, Charset charset) {
         isNotNull();
-        byte[] bytes = actual.getShortMessage();
-        String messageText = CharsetUtil.decode(bytes, charset);
+        String messageText = SubmitSmCharsetUtil.toText(actual, charset);
         if (!text.equals(messageText)) {
             failWithMessage("Expected text <%s> but was <%s>", text, messageText);
         }

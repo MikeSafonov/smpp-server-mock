@@ -7,15 +7,23 @@ import org.assertj.core.api.AbstractAssert;
 
 import java.util.List;
 
-public class SmppAssert extends AbstractAssert<SmppAssert, MockSmppServer> {
-    public SmppAssert(MockSmppServer mockSmppServer) {
-        super(mockSmppServer, SmppAssert.class);
+public class MockSmppServerAssert extends AbstractAssert<MockSmppServerAssert, MockSmppServer> {
+    public MockSmppServerAssert(MockSmppServer mockSmppServer) {
+        super(mockSmppServer, MockSmppServerAssert.class);
     }
 
-    public SmppAssert receiveRequestsCount(int size) {
+    public MockSmppServerAssert receiveRequestsCount(int size) {
         isNotNull();
         checkMessagesCount(actual.getRequests(), size);
         return this;
+    }
+
+    public SubmitSmListAssert messages() {
+        return new SubmitSmListAssert(actual.getSubmitSmMessages());
+    }
+
+    public CancelSmListAssert cancelMessages() {
+        return new CancelSmListAssert(actual.getCancelSmMessages());
     }
 
     public SubmitSmAssert hasSingleMessage() {

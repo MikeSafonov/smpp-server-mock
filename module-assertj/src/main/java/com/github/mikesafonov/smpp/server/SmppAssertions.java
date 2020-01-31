@@ -5,8 +5,12 @@ import com.cloudhopper.smpp.pdu.SubmitSm;
 import org.assertj.core.api.Assertions;
 
 public class SmppAssertions extends Assertions {
-    public static SmppAssert assertThat(MockSmppServer actual) {
-        return new SmppAssert(actual);
+    public static MockSmppServerHolderAssert assertThat(MockSmppServerHolder actual) {
+        return new MockSmppServerHolderAssert(actual);
+    }
+
+    public static MockSmppServerAssert assertThat(MockSmppServer actual) {
+        return new MockSmppServerAssert(actual);
     }
 
     public static SubmitSmAssert assertThat(SubmitSm submitSm) {
