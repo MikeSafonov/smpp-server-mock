@@ -7,14 +7,14 @@ buildscript {
     configurations.maybeCreate("pitest")
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
-        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
-        pitest 'org.pitest:pitest-junit5-plugin:0.12'
+        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6"
+        pitest "org.pitest:pitest-junit5-plugin:0.12"
     }
 }
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
-    gradleVersion = '6.1'
+    gradleVersion = "6.1"
 }
 
 subprojects {
@@ -26,8 +26,8 @@ subprojects {
     apply plugin: "maven"
     apply plugin: "signing"
 
-    sourceCompatibility = '1.8'
-    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+    sourceCompatibility = "1.8"
+    [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
 
     group = "com.github.mikesafonov"
     version "1.0.0"
@@ -55,7 +55,7 @@ subprojects {
     }
 
     javadoc {
-        options.encoding = 'UTF-8'
+        options.encoding = "UTF-8"
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -141,9 +141,9 @@ subprojects {
 
     pitest {
         testPlugin = "junit5"
-        targetClasses = ['com.github.mikesafonov.smpp.server.*']
+        targetClasses = ["com.github.mikesafonov.smpp.server.*"]
         threads = 4
-        outputFormats = ['HTML', 'XML']
+        outputFormats = ["HTML", "XML"]
         enableDefaultIncrementalAnalysis = true
         timestampedReports = false
         historyInputLocation = ".pitest/pitHistory.txt"
