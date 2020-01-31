@@ -1,4 +1,20 @@
 # smpp-server-mock
+[![codecov](https://codecov.io/gh/MikeSafonov/smpp-server-mock/branch/master/graph/badge.svg)](https://codecov.io/gh/MikeSafonov/smpp-server-mock)
+[![Travis-CI](https://travis-ci.com/MikeSafonov/smpp-server-mock.svg?branch=master)](https://travis-ci.com/MikeSafonov/smpp-server-mock)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=alert_status)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=security_rating)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=bugs)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=code_smells)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=ncloc)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=sqale_index)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
 
 This project helps to write integration test for applications uses SMPP connection. 
 
