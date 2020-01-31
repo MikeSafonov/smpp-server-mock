@@ -23,3 +23,4 @@ cache:
     - /module-core/.pitest/
     - /module-junit/.pitest/
     - /module-spring-boot/.pitest/
+    - /module-assertj/.pitest/
