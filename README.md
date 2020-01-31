@@ -26,6 +26,14 @@ This project helps to write integration test for applications uses SMPP connecti
 [`MockSmppBootstrapConfiguration`](module-spring-boot/src/main/java/com/github/mikesafonov/smpp/server/MockSmppBootstrapConfiguration.java)
 - AssertJ assertions for core SMPP server objects
 
+## Core 
+`smpp-server-mock-core` consist of two main classes: 
+[`MockSmppServer`](module-core/src/main/java/com/github/mikesafonov/smpp/server/MockSmppServer.java) and
+[`MockSmppServerHolder`](module-core/src/main/java/com/github/mikesafonov/smpp/server/MockSmppServerHolder.java).
+
+`MockSmppServer` represents smpp server which listening connections, received request, produce response and 
+keep requests in in-memory queue `QueueSmppSessionHandler`.
+
 ## Using JUnit 5 extension
 
 Add `JUnit 5` test dependencies.
@@ -34,12 +42,12 @@ Add extension dependency `com.github.mikesafonov:smpp-server-mock-junit`:
 
 Maven: 
 ```
-        <dependency>
-            <groupId>com.github.mikesafonov</groupId>
-            <artifactId>smpp-server-mock-junit</artifactId>
-            <version>${version}</version>
-            <scope>test</scope>
-        </dependency>
+<dependency>
+    <groupId>com.github.mikesafonov</groupId>
+    <artifactId>smpp-server-mock-junit</artifactId>
+    <version>${version}</version>
+    <scope>test</scope>
+</dependency>
 ```
 Gradle:
 
@@ -49,17 +57,19 @@ dependencies{
 }
 ```
 
-Write test:
+Test example:
 
 ```java
 @ExtendWith(MockSmppExtension.class)
 public class MyTest {
-    @SmppServer(systemId = "customSystemId", password = "anotherPassword")
+    @SmppServer(systemId = "customSystemId", password = "password")
     MockSmppServer mockSmppServer;
     
     @Test
     void shouldSendSms(){
-        MySmsSender sender = ...
+        // create some class to send SMS and connect to mock server, example:
+        MySmsSender sender = new MySmsSender("localhost", mockSmppServer.getPort(), 
+                                "customSystemId", "password");
         sender.sendSms("message", "number");
         
         List<SubmitSm> messages = mockSmppServer.getSubmitSmMessages();
@@ -72,7 +82,123 @@ public class MyTest {
 
 ## Using AssertJ assertions
 
-TODO
+`com.github.mikesafonov:smpp-server-mock-assertj` helps to write more intuitive assertions for SMPP objects.  
+
+To start using AssertJ assertions you need to:
+
+- add `assertj-core` dependency
+- add `com.github.mikesafonov:smpp-server-mock-assertj` dependency
+
+Maven: 
+```
+<dependency>
+    <groupId>com.github.mikesafonov</groupId>
+    <artifactId>smpp-server-mock-assertj</artifactId>
+    <version>${version}</version>
+    <scope>test</scope>
+</dependency>
+```
+Gradle:
+
+```
+dependencies{
+    testImplementation("com.github.mikesafonov:smpp-server-mock-assertj:${version}")
+}
+```
+Assertions for MockSmppServer:
+```
+SmppAssertions.assertThat(mockSmppServer)
+                .hasPort(2000)
+                .hasName("myserver")
+                .hasSystemId("systemId")
+                .hasSingleMessage() // assert for single SubmitSm
+                .hasSingleCancelMessage() // assert for single CancelSm
+                .messages()// assert for list of SubmitSm
+                .cancelMessages()// assert for list of CancelSm
+                .requests();//assert for list of any request
+```
+
+Assertions for SubmitSm:
+```
+SmppAssertions.assertThat(mockSmppServer)
+                    .hasSingleMessage()
+                    .hasDest("number")
+                    .hasText("message")
+                    .hasEsmClass(esmClass)
+                    .hasDeliveryReport()
+                    .doesNotHaveDeliveryReport()
+                    .hasSource("someSource");
+
+or
+
+SmppAssertions.assertThat(submitSm)
+                    .hasDest("number")
+                    .hasText("message")
+                    .hasEsmClass(esmClass)
+                    .hasDeliveryReport()
+                    .doesNotHaveDeliveryReport()
+                    .hasSource("someSource");
+
+```
+
+
+Assertions for CancelSm:
+```
+SmppAssertions.assertThat(mockSmppServer)
+                .hasSingleCancelMessage()
+                .hasDest("number")
+                .hasId("messageId")
+                .hasSource("someSource");
+
+or
+
+SmppAssertions.assertThat(cancelSm)
+                .hasDest("number")
+                .hasId("messageId")
+                .hasSource("someSource");
+```
+
+Assertions for list of SubmitSm:
+```
+SmppAssertions.assertThat(mockSmppServer)
+                .messages()
+                .containsDest(destAddress)
+                .containsText(text)
+                .containsEsmClass(esmClass)
+                .containsSource(sourceAddress);
+
+or
+
+SmppAssertions.assertThatSubmit(listOfSubmitSm)
+                .containsDest(destAddress)
+                .containsText(text)
+                .containsEsmClass(esmClass)
+                .containsSource(sourceAddress);
+
+```
+
+Assertions for list of CancelSm:
+```
+SmppAssertions.assertThat(mockSmppServer)
+                .cancelMessages()
+                .containsDest(destAddress)
+                .containsId(messageId)
+                .containsSource(sourceAddress);
+
+or
+
+SmppAssertions.assertThat(listOfCancelSm)
+                .containsDest(destAddress)
+                .containsId(messageId)
+                .containsSource(sourceAddress);
+```
+
+Assertions for MockSmppServerHolder:
+```
+SmppAssertions.assertThat(holder)
+                .allStarted() // verify that all MockSmppServer started
+                .serverByName("first); // find MockSmppServer by name and return assertions
+```
 
 ## Using Spring Boot Starter
 
