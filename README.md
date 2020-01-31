@@ -8,8 +8,53 @@ This project helps to write integration test for applications uses SMPP connecti
 - Junit 5 extension - [`MockSmppExtension`](module-junit/src/main/java/com/github/mikesafonov/smpp/server/MockSmppExtension.java)
 - Spring Boot Starter to start mock servers before application startup - 
 [`MockSmppBootstrapConfiguration`](module-spring-boot/src/main/java/com/github/mikesafonov/smpp/server/MockSmppBootstrapConfiguration.java)
+- AssertJ assertions for core SMPP server objects
 
 ## Using JUnit 5 extension
+
+Add `JUnit 5` test dependencies.
+
+Add extension dependency `com.github.mikesafonov:smpp-server-mock-junit`:
+
+Maven: 
+```
+        <dependency>
+            <groupId>com.github.mikesafonov</groupId>
+            <artifactId>smpp-server-mock-junit</artifactId>
+            <version>${version}</version>
+            <scope>test</scope>
+        </dependency>
+```
+Gradle:
+
+```
+dependencies{
+    testImplementation("com.github.mikesafonov:smpp-server-mock-junit:${version}")
+}
+```
+
+Write test:
+
+```java
+@ExtendWith(MockSmppExtension.class)
+public class MyTest {
+    @SmppServer(systemId = "customSystemId", password = "anotherPassword")
+    MockSmppServer mockSmppServer;
+    
+    @Test
+    void shouldSendSms(){
+        MySmsSender sender = ...
+        sender.sendSms("message", "number");
+        
+        List<SubmitSm> messages = mockSmppServer.getSubmitSmMessages();
+        SubmitSm message = messages.get(0);
+
+        assertEquals("number", message.getDestAddress().getAddress());
+    }       
+}
+```
+
+## Using AssertJ assertions
 
 TODO
 
