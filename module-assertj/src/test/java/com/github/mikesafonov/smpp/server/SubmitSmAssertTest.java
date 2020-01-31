@@ -19,7 +19,7 @@ class SubmitSmAssertTest {
     String sourceAddress = "source";
     byte esmClass = (byte) 1;
     String text = "messageText";
-    SubmitSmAssert submitSmAssert = new SubmitSmAssert(submitSm());
+    SubmitSmAssert submitSmAssert = SmppAssertions.assertThat(submitSm());
 
     private SubmitSm submitSm() {
         try {

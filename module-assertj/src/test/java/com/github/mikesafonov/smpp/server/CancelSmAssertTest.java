@@ -15,7 +15,7 @@ class CancelSmAssertTest {
     String messageId = "messageId";
     String destAddress = "destination";
     String sourceAddress = "source";
-    CancelSmAssert cancelSmAssert = new CancelSmAssert(cancelSm());
+    CancelSmAssert cancelSmAssert = SmppAssertions.assertThat(cancelSm());
 
     private CancelSm cancelSm() {
         CancelSm cancelSm = new CancelSm();
