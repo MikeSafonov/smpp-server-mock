@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Holder class for list of {@link MockSmppServer}
@@ -37,5 +38,23 @@ public class MockSmppServerHolder {
             server.stop();
             log.info(server.getDescription() + " stopped");
         }
+    }
+
+    /**
+     * @return true if all servers started
+     */
+    public boolean isAllStarted() {
+        return servers.stream()
+                .allMatch(MockSmppServer::isStarted);
+    }
+
+    /**
+     * @param name server name
+     * @return {@link MockSmppServer} with given name
+     */
+    public Optional<MockSmppServer> getByName(String name) {
+        return servers.stream()
+                .filter(mockSmppServer -> mockSmppServer.getName().equals(name))
+                .findFirst();
     }
 }
