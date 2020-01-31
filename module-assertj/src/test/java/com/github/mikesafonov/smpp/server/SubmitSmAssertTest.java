@@ -34,6 +34,12 @@ class SubmitSmAssertTest {
         }
     }
 
+    private SubmitSm submitSmWithReport() {
+        SubmitSm submitSm = submitSm();
+        submitSm.setRegisteredDelivery(SmppConstants.REGISTERED_DELIVERY_SMSC_RECEIPT_REQUESTED);
+        return submitSm;
+    }
+
     @Test
     void shouldSuccessAssert() {
         submitSmAssert
@@ -41,6 +47,17 @@ class SubmitSmAssertTest {
                 .hasText(text)
                 .hasEsmClass(esmClass)
                 .doesNotHaveDeliveryReport()
+                .hasSource(sourceAddress);
+
+    }
+
+    @Test
+    void shouldSuccessAssertWithDeliveryReport() {
+        new SubmitSmAssert(submitSmWithReport())
+                .hasDest(destAddress)
+                .hasText(text)
+                .hasEsmClass(esmClass)
+                .hasDeliveryReport()
                 .hasSource(sourceAddress);
 
     }
@@ -98,8 +115,8 @@ class SubmitSmAssertTest {
                 .hasDest(destAddress)
                 .hasText(text)
                 .hasEsmClass(esmClass)
-                .doesNotHaveDeliveryReport()
-                .hasSource(sourceAddress));
+                .hasSource(sourceAddress)
+                .doesNotHaveDeliveryReport());
         assertEquals("Not expected registered delivery <1>", assertionError.getMessage());
     }
 

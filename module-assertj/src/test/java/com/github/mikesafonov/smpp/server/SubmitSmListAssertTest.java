@@ -57,9 +57,10 @@ class SubmitSmListAssertTest {
     void shouldFailOnText() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
                 .hasDest(destAddress)
+                .hasSource(sourceAddress)
                 .hasText("text2")
                 .hasEsmClass(esmClass)
-                .hasSource(sourceAddress));
+        );
         assertEquals("Expected at least one message with text <text2> but no one find", assertionError.getMessage());
     }
 

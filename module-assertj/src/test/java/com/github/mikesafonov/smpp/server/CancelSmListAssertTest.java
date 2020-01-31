@@ -64,8 +64,8 @@ class CancelSmListAssertTest {
     void shouldFailOnDestAddress() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> cancelSmAssert
                 .hasId(messageId)
-                .hasDest("otherDest")
-                .hasSource(sourceAddress));
+                .hasSource(sourceAddress)
+                .hasDest("otherDest"));
         assertEquals("Expected at least one message with dest address <otherDest> but no one find", assertionError.getMessage());
     }
 }

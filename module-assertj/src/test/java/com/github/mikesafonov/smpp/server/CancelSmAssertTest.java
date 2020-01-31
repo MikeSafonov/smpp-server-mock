@@ -56,8 +56,9 @@ class CancelSmAssertTest {
     void shouldFailOnDestAddress() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> cancelSmAssert
                 .hasId(messageId)
+                .hasSource(sourceAddress)
                 .hasDest("otherDest")
-                .hasSource(sourceAddress));
+        );
         assertEquals("Expected dest address <otherDest> but was <destination>", assertionError.getMessage());
     }
 }
