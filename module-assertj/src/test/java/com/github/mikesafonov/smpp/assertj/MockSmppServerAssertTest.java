@@ -1,14 +1,15 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.assertj;
 
 import com.cloudhopper.smpp.pdu.CancelSm;
 import com.cloudhopper.smpp.pdu.SubmitSm;
+import com.github.mikesafonov.smpp.server.MockSmppServer;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.github.mikesafonov.smpp.server.SmppAssertions.assertThat;
+import static com.github.mikesafonov.smpp.assertj.SmppAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

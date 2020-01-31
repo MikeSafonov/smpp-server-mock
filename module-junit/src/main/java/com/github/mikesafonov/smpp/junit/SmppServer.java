@@ -1,4 +1,6 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.junit;
+
+import com.github.mikesafonov.smpp.server.MockSmppServer;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.assertj;
 
 import com.cloudhopper.smpp.pdu.CancelSm;
 import org.assertj.core.api.AbstractAssert;

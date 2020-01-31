@@ -1,5 +1,7 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.boot;
 
+import com.github.mikesafonov.smpp.server.MockSmppServer;
+import com.github.mikesafonov.smpp.server.MockSmppServerHolder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

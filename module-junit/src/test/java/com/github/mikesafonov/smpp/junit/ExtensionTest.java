@@ -1,5 +1,6 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.junit;
 
+import com.github.mikesafonov.smpp.server.MockSmppServer;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

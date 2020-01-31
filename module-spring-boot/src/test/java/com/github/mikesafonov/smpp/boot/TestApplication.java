@@ -1,4 +1,4 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.boot;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

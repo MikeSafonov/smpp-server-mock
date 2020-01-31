@@ -20,10 +20,10 @@ import static com.github.mikesafonov.smpp.server.Utils.randomUuidName;
  * @author Mike Safonov
  */
 public class MockSmppServer {
-    static final int RANDOM_PORT = -1;
+    public static final int RANDOM_PORT = -1;
 
-    static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
-    static final String DEFAULT_PASSWORD = "password";
+    public static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
+    public static final String DEFAULT_PASSWORD = "password";
 
     @Getter
     private final String name;

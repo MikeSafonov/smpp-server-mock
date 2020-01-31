@@ -1,5 +1,6 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.assertj;
 
+import com.github.mikesafonov.smpp.server.MockSmppServerHolder;
 import org.assertj.core.api.AbstractAssert;
 
 

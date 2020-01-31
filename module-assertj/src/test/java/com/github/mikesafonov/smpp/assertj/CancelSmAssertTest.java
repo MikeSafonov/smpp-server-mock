@@ -1,11 +1,8 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.assertj;
 
 import com.cloudhopper.smpp.pdu.CancelSm;
 import com.cloudhopper.smpp.type.Address;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,18 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Mike Safonov
  */
-class CancelSmListAssertTest {
+class CancelSmAssertTest {
+
     String messageId = "messageId";
     String destAddress = "destination";
     String sourceAddress = "source";
-    CancelSmListAssert cancelSmAssert = new CancelSmListAssert(cancelSmList());
-
-    private List<CancelSm> cancelSmList() {
-        return Arrays.asList(
-                cancelSm(),
-                cancelSm()
-        );
-    }
+    CancelSmAssert cancelSmAssert = SmppAssertions.assertThat(cancelSm());
 
     private CancelSm cancelSm() {
         CancelSm cancelSm = new CancelSm();
@@ -40,6 +31,7 @@ class CancelSmListAssertTest {
                 .hasDest(destAddress)
                 .hasId(messageId)
                 .hasSource(sourceAddress);
+
     }
 
     @Test
@@ -48,7 +40,7 @@ class CancelSmListAssertTest {
                 .hasId("otherId")
                 .hasDest(destAddress)
                 .hasSource(sourceAddress));
-        assertEquals("Expected at least one message with id <otherId> but no one find", assertionError.getMessage());
+        assertEquals("Expected id <otherId> but was <messageId>", assertionError.getMessage());
     }
 
     @Test
@@ -57,7 +49,7 @@ class CancelSmListAssertTest {
                 .hasId(messageId)
                 .hasDest(destAddress)
                 .hasSource("otherSource"));
-        assertEquals("Expected at least one message with source address <otherSource> but no one find", assertionError.getMessage());
+        assertEquals("Expected source address <otherSource> but was <source>", assertionError.getMessage());
     }
 
     @Test
@@ -65,7 +57,8 @@ class CancelSmListAssertTest {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> cancelSmAssert
                 .hasId(messageId)
                 .hasSource(sourceAddress)
-                .hasDest("otherDest"));
-        assertEquals("Expected at least one message with dest address <otherDest> but no one find", assertionError.getMessage());
+                .hasDest("otherDest")
+        );
+        assertEquals("Expected dest address <otherDest> but was <destination>", assertionError.getMessage());
     }
 }

@@ -3,9 +3,9 @@
   ],
   "properties": [
     {
-      "sourceType": "com.github.mikesafonov.smpp.server.MockSmppProperties",
+      "sourceType": "com.github.mikesafonov.smpp.boot.MockSmppProperties",
       "name": "smpp.mocks",
-      "type": "java.util.Map<java.lang.String,com.github.mikesafonov.smpp.server.MockSmppProperties.SMPP>",
+      "type": "java.util.Map<java.lang.String,com.github.mikesafonov.smpp.boot.MockSmppProperties.SMPP>",
       "description": "Map of smpp mock servers"
     }
   ]

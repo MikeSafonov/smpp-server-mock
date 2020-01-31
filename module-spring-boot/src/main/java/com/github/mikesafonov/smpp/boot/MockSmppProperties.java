@@ -1,5 +1,6 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.boot;
 
+import com.github.mikesafonov.smpp.server.MockSmppServer;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

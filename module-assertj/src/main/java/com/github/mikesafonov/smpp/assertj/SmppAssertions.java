@@ -1,7 +1,9 @@
-package com.github.mikesafonov.smpp.server;
+package com.github.mikesafonov.smpp.assertj;
 
 import com.cloudhopper.smpp.pdu.CancelSm;
 import com.cloudhopper.smpp.pdu.SubmitSm;
+import com.github.mikesafonov.smpp.server.MockSmppServer;
+import com.github.mikesafonov.smpp.server.MockSmppServerHolder;
 import org.assertj.core.api.Assertions;
 
 public class SmppAssertions extends Assertions {

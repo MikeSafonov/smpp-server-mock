@@ -1,2 +1,2 @@
 org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-  com.github.mikesafonov.smpp.server.MockSmppBootstrapConfiguration
+  com.github.mikesafonov.smpp.boot.MockSmppBootstrapConfiguration
