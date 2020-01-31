@@ -19,6 +19,30 @@ public class MockSmppServerAssert extends AbstractAssert<MockSmppServerAssert, M
         return this;
     }
 
+    public MockSmppServerAssert hasName(String name) {
+        isNotNull();
+        if(!actual.getName().equals(name)){
+            failWithMessage("Expected name to be <%s> but was <%s>", name, actual.getName());
+        }
+        return this;
+    }
+
+    public MockSmppServerAssert hasPort(int port){
+        isNotNull();
+        if(actual.getPort() != port){
+            failWithMessage("Expected port to be <%s> but was <%s>", port, actual.getPort());
+        }
+        return this;
+    }
+
+    public MockSmppServerAssert hasSystemId(String systemId){
+        isNotNull();
+        if(!actual.getSystemId().equals(systemId)){
+            failWithMessage("Expected systemId to be <%s> but was <%s>", systemId, actual.getSystemId());
+        }
+        return this;
+    }
+
     public SubmitSmListAssert messages() {
         return new SubmitSmListAssert(actual.getSubmitSmMessages());
     }
