@@ -17,6 +17,67 @@ import static org.mockito.Mockito.*;
  * @author Mike Safonov
  */
 class MockSmppServerAssertTest {
+
+    @Nested
+    class HasName{
+        @Test
+        void shouldReturnExpectedName(){
+            MockSmppServer server = new MockSmppServer("one");
+
+            assertNotNull(assertThat(server)
+                    .hasName("one"));
+        }
+
+        @Test
+        void shouldFailWhenNameNotMatch() {
+            MockSmppServer server = new MockSmppServer("one");
+
+            AssertionError assertionError = assertThrows(AssertionError.class, () -> assertThat(server)
+                    .hasName("one1"));
+            assertEquals("Expected name to be <one1> but was <one>", assertionError.getMessage());
+        }
+    }
+
+    @Nested
+    class HasPort{
+        @Test
+        void shouldReturnExpectedPort(){
+            MockSmppServer server = new MockSmppServer(10);
+
+            assertNotNull(assertThat(server)
+                    .hasPort(10));
+        }
+
+        @Test
+        void shouldFailWhenPortNotMatch() {
+            MockSmppServer server = new MockSmppServer(11);
+
+            AssertionError assertionError = assertThrows(AssertionError.class, () -> assertThat(server)
+                    .hasPort(10));
+            assertEquals("Expected port to be <10> but was <11>", assertionError.getMessage());
+        }
+    }
+
+    @Nested
+    class HasSystemId{
+        @Test
+        void shouldReturnExpectedSystemId(){
+            MockSmppServer server = new MockSmppServer("one", "system", "");
+
+            assertNotNull(assertThat(server)
+                    .hasSystemId("system"));
+        }
+
+        @Test
+        void shouldFailWhenSystemIdNotMatch() {
+            MockSmppServer server = new MockSmppServer("one", "system2", "");
+
+            AssertionError assertionError = assertThrows(AssertionError.class, () -> assertThat(server)
+                    .hasSystemId("system"));
+            assertEquals("Expected systemId to be <system> but was <system2>", assertionError.getMessage());
+        }
+    }
+
     @Nested
     class ReceiveRequestsCount {
         @Test
