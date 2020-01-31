@@ -9,7 +9,7 @@ dependencies {
 
     compileOnly("org.springframework.cloud:spring-cloud-starter")
 
-    implementation(project(":module-core"))
+    api(project(":module-core"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
