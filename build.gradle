@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
         classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
-        pitest 'org.pitest:pitest-junit5-plugin:0.11'
+        pitest 'org.pitest:pitest-junit5-plugin:0.12'
     }
 }
 
