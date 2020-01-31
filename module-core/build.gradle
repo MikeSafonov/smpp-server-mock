@@ -1,3 +1,3 @@
 dependencies {
-    implementation("org.restcomm.smpp:ch-smpp:5.1.0-113")
+    api("org.restcomm.smpp:ch-smpp:5.1.0-113")
 }
