@@ -6,6 +6,8 @@ import com.github.mikesafonov.smpp.server.MockSmppServer;
 import com.github.mikesafonov.smpp.server.MockSmppServerHolder;
 import org.assertj.core.api.Assertions;
 
+import java.util.List;
+
 public class SmppAssertions extends Assertions {
     public static MockSmppServerHolderAssert assertThat(MockSmppServerHolder actual) {
         return new MockSmppServerHolderAssert(actual);
@@ -21,5 +23,13 @@ public class SmppAssertions extends Assertions {
 
     public static CancelSmAssert assertThat(CancelSm cancelSm) {
         return new CancelSmAssert(cancelSm);
+    }
+
+    public static SubmitSmListAssert assertThatSubmit(List<SubmitSm> submitSms) {
+        return new SubmitSmListAssert(submitSms);
+    }
+
+    public static CancelSmListAssert assertThatCancel(List<CancelSm> cancelSms) {
+        return new CancelSmListAssert(cancelSms);
     }
 }

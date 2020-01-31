@@ -10,7 +10,7 @@ public class CancelSmListAssert extends AbstractAssert<CancelSmListAssert, List<
         super(cancelSm, CancelSmListAssert.class);
     }
 
-    public CancelSmListAssert hasId(String smscId) {
+    public CancelSmListAssert containsId(String smscId) {
         isNotNull();
         if (!containByMessageId(smscId)) {
             failWithMessage("Expected at least one message with id <%s> but no one find",
@@ -19,7 +19,7 @@ public class CancelSmListAssert extends AbstractAssert<CancelSmListAssert, List<
         return this;
     }
 
-    public CancelSmListAssert hasSource(String source) {
+    public CancelSmListAssert containsSource(String source) {
         isNotNull();
         if (!containBySourceAddress(source)) {
             failWithMessage("Expected at least one message with source address <%s> but no one find",
@@ -28,7 +28,7 @@ public class CancelSmListAssert extends AbstractAssert<CancelSmListAssert, List<
         return this;
     }
 
-    public CancelSmListAssert hasDest(String dest) {
+    public CancelSmListAssert containsDest(String dest) {
         isNotNull();
         if (!containByDestAddress(dest)) {
             failWithMessage("Expected at least one message with dest address <%s> but no one find",

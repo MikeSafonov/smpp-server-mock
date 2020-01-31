@@ -15,7 +15,7 @@ public class SubmitSmListAssert extends AbstractAssert<SubmitSmListAssert, List<
         super(submitSms, SubmitSmListAssert.class);
     }
 
-    public SubmitSmListAssert hasEsmClass(byte esmClass) {
+    public SubmitSmListAssert containsEsmClass(byte esmClass) {
         isNotNull();
         if (!containByEsmClass(esmClass)) {
             failWithMessage("Expected at least one message with esm class <%s> but no one find",
@@ -24,7 +24,7 @@ public class SubmitSmListAssert extends AbstractAssert<SubmitSmListAssert, List<
         return this;
     }
 
-    public SubmitSmListAssert hasSource(String source) {
+    public SubmitSmListAssert containsSource(String source) {
         isNotNull();
         if (!containBySourceAddress(source)) {
             failWithMessage("Expected at least one message with source address <%s> but no one find",
@@ -33,7 +33,7 @@ public class SubmitSmListAssert extends AbstractAssert<SubmitSmListAssert, List<
         return this;
     }
 
-    public SubmitSmListAssert hasDest(String dest) {
+    public SubmitSmListAssert containsDest(String dest) {
         isNotNull();
         if (!containByDestAddress(dest)) {
             failWithMessage("Expected at least one message with dest address <%s> but no one find",
@@ -42,12 +42,12 @@ public class SubmitSmListAssert extends AbstractAssert<SubmitSmListAssert, List<
         return this;
     }
 
-    public SubmitSmListAssert hasText(String text) {
-        return hasTextWithCharset(text, CharsetUtil.CHARSET_GSM);
+    public SubmitSmListAssert containsText(String text) {
+        return containsTextWithCharset(text, CharsetUtil.CHARSET_GSM);
 
     }
 
-    public SubmitSmListAssert hasTextWithCharset(String text, Charset charset) {
+    public SubmitSmListAssert containsTextWithCharset(String text, Charset charset) {
         isNotNull();
         if (!containByText(text, charset)) {
             failWithMessage("Expected at least one message with text <%s> but no one find", text);
