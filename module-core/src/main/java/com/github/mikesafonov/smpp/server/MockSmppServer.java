@@ -137,6 +137,7 @@ public class MockSmppServer {
      */
     public void stop() {
         smppServer.stop();
+        started = false;
     }
 
     public int getCountRequests() {
