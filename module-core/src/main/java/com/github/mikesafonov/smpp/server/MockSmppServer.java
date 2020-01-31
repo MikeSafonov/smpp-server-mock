@@ -63,13 +63,7 @@ public class MockSmppServer {
     }
 
     public MockSmppServer(int port, String systemId, String password) {
-        this.name = randomUuidName();
-        this.port = checkPortOrGetFree(port);
-        this.systemId = systemId;
-        this.password = password;
-        this.handler = new MockSmppServerHandler(systemId, password);
-        this.smppServer = new DefaultSmppServer(new MockSmppServerConfiguration(this.port, systemId),
-                handler, Executors.newCachedThreadPool());
+        this(randomUuidName(), port, systemId, password);
     }
 
     public MockSmppServer(String name, int port, String systemId, String password) {
@@ -82,34 +76,10 @@ public class MockSmppServer {
                 handler, Executors.newCachedThreadPool());
     }
 
-    public MockSmppServer(int port, String systemId, String password, MockSmppServerConfiguration configuration) {
-        this(randomUuidName(), port, systemId, password, configuration);
-    }
-
-    public MockSmppServer(String name, int port, String systemId, String password,
-                          MockSmppServerConfiguration configuration) {
-        this.name = name;
-        this.port = port;
-        this.systemId = systemId;
-        this.password = password;
-        this.handler = new MockSmppServerHandler(systemId, password);
-        this.smppServer = new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool());
-    }
-
-    public MockSmppServer(int port, String systemId, String password,
-                          MockSmppServerHandler handler, MockSmppServerConfiguration configuration) {
-        this(port, systemId, password, handler,
-                new DefaultSmppServer(configuration, handler, Executors.newCachedThreadPool()));
-    }
-
-    public MockSmppServer(int port, String systemId, String password,
+    //test only
+    MockSmppServer(int port, String systemId, String password,
                           MockSmppServerHandler handler, DefaultSmppServer smppServer) {
-        this(randomUuidName(), port, systemId, password, handler, smppServer);
-    }
-
-    public MockSmppServer(String name, int port, String systemId, String password,
-                          MockSmppServerHandler handler, DefaultSmppServer smppServer) {
-        this.name = name;
+        this.name = randomUuidName();
         this.port = port;
         this.systemId = systemId;
         this.password = password;
