@@ -28,7 +28,7 @@ public class MockSmppServerHolderAssert extends AbstractAssert<MockSmppServerHol
         isNotNull();
         return actual.getByName(name).map(MockSmppServerAssert::new)
                 .orElseGet(() -> {
-                            failWithMessage("Expected server with name " + name + " but not found");
+                            failWithMessage("Expected server with name <%s> but not found", name);
                             return null;
                         }
                 );
