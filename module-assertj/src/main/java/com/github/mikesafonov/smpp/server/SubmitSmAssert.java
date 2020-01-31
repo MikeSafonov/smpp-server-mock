@@ -6,6 +6,11 @@ import com.cloudhopper.smpp.SmppConstants;
 import com.cloudhopper.smpp.pdu.SubmitSm;
 import org.assertj.core.api.AbstractAssert;
 
+/**
+ * Assert for {@link SubmitSm}
+ *
+ * @author Mike Safonov
+ */
 public class SubmitSmAssert extends AbstractAssert<SubmitSmAssert, SubmitSm> {
     public SubmitSmAssert(SubmitSm submitSm) {
         super(submitSm, SubmitSmAssert.class);

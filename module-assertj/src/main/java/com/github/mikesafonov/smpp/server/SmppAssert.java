@@ -14,7 +14,7 @@ public class SmppAssert extends AbstractAssert<SmppAssert, MockSmppServer> {
 
     public SmppAssert receiveRequestsCount(int size) {
         isNotNull();
-        checkMessagesCount(actual.getMessages(), size);
+        checkMessagesCount(actual.getRequests(), size);
         return this;
     }
 
@@ -27,7 +27,7 @@ public class SmppAssert extends AbstractAssert<SmppAssert, MockSmppServer> {
     }
 
     public PduRequestListAssert requests() {
-        return new PduRequestListAssert(actual.getMessages());
+        return new PduRequestListAssert(actual.getRequests());
     }
 
 

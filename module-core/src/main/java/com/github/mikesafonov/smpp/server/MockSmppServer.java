@@ -117,6 +117,9 @@ public class MockSmppServer {
         this.smppServer = smppServer;
     }
 
+    /**
+     * Start mock server
+     */
     public void start() {
         if (started) {
             return;
@@ -129,26 +132,41 @@ public class MockSmppServer {
         }
     }
 
+    /**
+     * Stop mock server
+     */
     public void stop() {
         smppServer.stop();
     }
 
-    public int countMessages() {
+    public int getCountRequests() {
         return handler.getSessionHandler().countTotalMessages();
     }
 
-    public List<PduRequest> getMessages() {
+    /**
+     * @return list of all received {@link PduRequest}
+     */
+    public List<PduRequest> getRequests() {
         return new ArrayList<>(handler.getSessionHandler().getReceivedPduRequests());
     }
 
+    /**
+     * @return list of received {@link SubmitSm}
+     */
     public List<SubmitSm> getSubmitSmMessages() {
         return new ArrayList<>(handler.getSessionHandler().getSubmitSms());
     }
 
+    /**
+     * @return list of received {@link CancelSm}
+     */
     public List<CancelSm> getCancelSmMessages() {
         return new ArrayList<>(handler.getSessionHandler().getCancelSms());
     }
 
+    /**
+     * @return server description (name, port, systemId)
+     */
     public String getDescription() {
         return "Smpp server[name: " + name + ", port: " + port + ", systemId: " + systemId + "]";
     }
