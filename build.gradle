@@ -86,6 +86,7 @@ subprojects {
                 }
 
                 // Add required metadata to POM
+                pom.artifactId = "${projectName}"
                 pom.project {
                     name "${projectName}"
                     packaging "jar"
