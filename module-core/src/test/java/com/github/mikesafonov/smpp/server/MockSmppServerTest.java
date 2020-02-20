@@ -125,6 +125,20 @@ class MockSmppServerTest {
         }
 
         @Test
+        void shouldThrowRuntimeExceptionWhenException() throws SmppChannelException {
+            DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
+            MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
+            String systemId = "customId";
+            String password = "customPassword";
+            int port = 3000;
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
+
+            doThrow(SmppChannelException.class).when(defaultSmppServer).start();
+
+            assertThrows(RuntimeException.class, server::start);
+        }
+
+        @Test
         void shouldCallStartOnSmppServerOnce() throws SmppChannelException {
             DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
             MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
@@ -155,6 +169,15 @@ class MockSmppServerTest {
 
             verify(defaultSmppServer, times(1)).stop();
             assertFalse(server.isStarted());
+        }
+    }
+
+    @Nested
+    class Description {
+        @Test
+        void shouldReturnExpectedDescription() {
+            MockSmppServer server = new MockSmppServer("server", 2000, "systemId", "pass");
+            assertEquals("Smpp server[name: server, port: 2000, systemId: systemId]", server.getDescription());
         }
     }
 }

@@ -25,9 +25,14 @@ class MockSmppServerHandlerTest {
             String password = "customPassword";
             MockSmppServerHandler handler = new MockSmppServerHandler(systemId, password);
 
-            SmppSessionConfiguration configuration = new SmppSessionConfiguration(SmppBindType.RECEIVER, "anothreId", password);
+            SmppSessionConfiguration configuration =
+                    new SmppSessionConfiguration(SmppBindType.RECEIVER, systemId, password);
 
-            assertThrows(SmppProcessingException.class, () -> handler.sessionBindRequested(0L, configuration, new BindReceiver()));
+            BindReceiver bindReceiver = new BindReceiver();
+            bindReceiver.setPassword(password);
+            bindReceiver.setSystemId("anothreId");
+            assertThrows(SmppProcessingException.class,
+                    () -> handler.sessionBindRequested(0L, configuration, bindReceiver));
         }
 
         @Test
@@ -37,9 +42,12 @@ class MockSmppServerHandlerTest {
             MockSmppServerHandler handler = new MockSmppServerHandler(systemId, password);
 
             SmppSessionConfiguration configuration = new SmppSessionConfiguration(SmppBindType.RECEIVER, systemId,
-                    "anotherPassword");
-
-            assertThrows(SmppProcessingException.class, () -> handler.sessionBindRequested(0L, configuration, new BindReceiver()));
+                    password);
+            BindReceiver bindReceiver = new BindReceiver();
+            bindReceiver.setPassword("anotherPassword");
+            bindReceiver.setSystemId(systemId);
+            assertThrows(SmppProcessingException.class,
+                    () -> handler.sessionBindRequested(0L, configuration, bindReceiver));
         }
     }
 
