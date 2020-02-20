@@ -36,7 +36,24 @@ keep requests in in-memory queue `QueueSmppSessionHandler`.
 
 ## Using JUnit 5 extension
 
-Add `JUnit 5` test dependencies.
+Add `JUnit 5` test dependencies:
+
+Maven:
+```
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.6.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
+Gradle:
+```
+dependencies{
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+}
+```
 
 Add extension dependency `com.github.mikesafonov:smpp-server-mock-junit`:
 
@@ -202,8 +219,99 @@ SmppAssertions.assertThat(holder)
 
 ## Using Spring Boot Starter
 
-TODO
+Spring boot starter are used to bootstrap `MockSmppServer` servers using spring cloud bootstrap phase. 
 
+Add `spring-cloud` and `spring-boot-starter-test` test dependencies:
+
+Maven:
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter</artifactId>
+    <version>cloud-version</version>     
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <version>version</version>     
+    <scope>test</scope>
+</dependency>
+```
+
+Gradle:
+```
+dependencies{
+    testImplementation("org.springframework.cloud:spring-cloud-starter:${cloud-version}")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${version}")
+}
+```
+
+Add extension dependency `com.github.mikesafonov:smpp-server-mock-boot`:
+
+Maven: 
+```
+<dependency>
+    <groupId>com.github.mikesafonov</groupId>
+    <artifactId>smpp-server-mock-boot</artifactId>
+    <version>${version}</version>
+    <scope>test</scope>
+</dependency>
+```
+Gradle:
+
+```
+dependencies{
+    testImplementation("com.github.mikesafonov:smpp-server-mock-boot:${version}")
+}
+```
+
+The starter consumes properties:
+
+`smpp.mocks.<server name>.port` (optional, default random)
+
+`smpp.mocks.<server name>.password`
+
+`smpp.mocks.<server name>.systemId`
+
+The starter produces properties:
+
+`smpp.mocks.<server name>.port` 
+
+`smpp.mocks.<server name>.password`
+
+`smpp.mocks.<server name>.systemId`
+
+#### Example
+
+**application.properties**:
+```properties
+smpp.mocks.one.password=test
+smpp.mocks.one.systemId=user
+# some properties to smpp connection in your app
+my.smpp.connection.host=localhost
+my.smpp.connection.port=${smpp.mocks.one.port}
+my.smpp.connection.password=${smpp.mocks.one.password}
+my.smpp.connection.systemId=${smpp.mocks.one.systemId}
+```
+
+**test**:
+
+```java
+    @SpringBootTest
+    class SingleServer extends BaseSmppTest {
+        @Autowired
+        protected MockSmppServerHolder holder;
+        
+        @Test
+        void shouldRunExpectedSmppServer() {
+            // test logic
+            List<PduRequest> requests = 
+                    holder.getByName("one").get().getRequests();
+            // verify smpp requests
+        }
+    }
+```
 
 ## Build
 
