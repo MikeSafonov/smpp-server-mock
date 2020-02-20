@@ -247,13 +247,13 @@ dependencies{
 }
 ```
 
-Add extension dependency `com.github.mikesafonov:smpp-server-mock-boot`:
+Add extension dependency `com.github.mikesafonov:smpp-server-mock-spring-boot`:
 
 Maven: 
 ```
 <dependency>
     <groupId>com.github.mikesafonov</groupId>
-    <artifactId>smpp-server-mock-boot</artifactId>
+    <artifactId>smpp-server-mock-spring-boot</artifactId>
     <version>${version}</version>
     <scope>test</scope>
 </dependency>
@@ -262,7 +262,7 @@ Gradle:
 
 ```
 dependencies{
-    testImplementation("com.github.mikesafonov:smpp-server-mock-boot:${version}")
+    testImplementation("com.github.mikesafonov:smpp-server-mock-spring-boot:${version}")
 }
 ```
 
@@ -272,7 +272,7 @@ The starter consumes properties:
 
 `smpp.mocks.<server name>.password`
 
-`smpp.mocks.<server name>.systemId`
+`smpp.mocks.<server name>.system-id`
 
 The starter produces properties:
 
@@ -280,19 +280,23 @@ The starter produces properties:
 
 `smpp.mocks.<server name>.password`
 
-`smpp.mocks.<server name>.systemId`
+`smpp.mocks.<server name>.system-id`
 
 #### Example
 
-**application.properties**:
+**bootstrap.properties**:
 ```properties
 smpp.mocks.one.password=test
-smpp.mocks.one.systemId=user
+smpp.mocks.one.system-id=user
+```
+
+**application.properties**:
+```properties
 # some properties to smpp connection in your app
 my.smpp.connection.host=localhost
 my.smpp.connection.port=${smpp.mocks.one.port}
 my.smpp.connection.password=${smpp.mocks.one.password}
-my.smpp.connection.systemId=${smpp.mocks.one.systemId}
+my.smpp.connection.systemId=${smpp.mocks.one.system-id}
 ```
 
 **test**:
