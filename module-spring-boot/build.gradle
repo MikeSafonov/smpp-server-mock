@@ -1,6 +1,6 @@
 
 dependencies {
-    implementation platform("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR1")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR2")
     implementation platform("org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE")
     annotationProcessor platform("org.springframework.boot:spring-boot-dependencies:2.2.4.RELEASE")
 
