@@ -44,10 +44,14 @@ class SubmitSmAssertTest {
     void shouldSuccessAssert() {
         submitSmAssert
                 .hasDest(destAddress)
+                .doesNotHaveDest("otherDest")
                 .hasText(text)
+                .doesNotHaveText("some other text")
                 .hasEsmClass(esmClass)
+                .doesNotHaveEsmClass((byte) 2)
                 .doesNotHaveDeliveryReport()
-                .hasSource(sourceAddress);
+                .hasSource(sourceAddress)
+                .doesNotHaveSource("other source");
 
     }
 
@@ -74,6 +78,18 @@ class SubmitSmAssertTest {
     }
 
     @Test
+    void shouldFailOnNotText() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .hasDest(destAddress)
+                .hasText(text)
+                .doesNotHaveText(text)
+                .hasEsmClass(esmClass)
+                .doesNotHaveDeliveryReport()
+                .hasSource(sourceAddress));
+        assertEquals("Expected text <messageText> not equals to <messageText>", assertionError.getMessage());
+    }
+
+    @Test
     void shouldFailOnSourceAddress() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
                 .hasDest(destAddress)
@@ -83,6 +99,19 @@ class SubmitSmAssertTest {
                 .hasSource("otherSource"));
         assertEquals("Expected source address <otherSource> but was <source>", assertionError.getMessage());
     }
+
+    @Test
+    void shouldFailOnNotSourceAddress() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .hasDest(destAddress)
+                .hasText(text)
+                .hasEsmClass(esmClass)
+                .doesNotHaveDeliveryReport()
+                .hasSource(sourceAddress)
+                .doesNotHaveSource(sourceAddress));
+        assertEquals("Expected source address <source> not equals to <source>", assertionError.getMessage());
+    }
+
 
     @Test
     void shouldFailOnDestAddress() {
@@ -96,6 +125,18 @@ class SubmitSmAssertTest {
     }
 
     @Test
+    void shouldFailOnNotDestAddress() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .hasDest(destAddress)
+                .doesNotHaveDest(destAddress)
+                .hasText(text)
+                .hasEsmClass(esmClass)
+                .doesNotHaveDeliveryReport()
+                .hasSource(sourceAddress));
+        assertEquals("Expected dest address <destination> not equals to <destination>", assertionError.getMessage());
+    }
+
+    @Test
     void shouldFailOnEsmClass() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
                 .hasDest(destAddress)
@@ -104,6 +145,18 @@ class SubmitSmAssertTest {
                 .doesNotHaveDeliveryReport()
                 .hasSource(sourceAddress));
         assertEquals("Expected esm class <2> but was <1>", assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnNotEsmClass() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .hasDest(destAddress)
+                .hasText(text)
+                .hasEsmClass(esmClass)
+                .doesNotHaveEsmClass(esmClass)
+                .doesNotHaveDeliveryReport()
+                .hasSource(sourceAddress));
+        assertEquals("Expected esm class <1> not equals to <1>", assertionError.getMessage());
     }
 
     @Test

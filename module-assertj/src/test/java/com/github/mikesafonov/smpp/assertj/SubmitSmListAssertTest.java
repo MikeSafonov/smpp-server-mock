@@ -47,9 +47,13 @@ class SubmitSmListAssertTest {
     void shouldSuccessAssert() {
         submitSmAssert
                 .containsDest(destAddress)
+                .notContainsDest("anotherDest")
                 .containsText(text)
+                .notContainsText("some other text")
                 .containsEsmClass(esmClass)
-                .containsSource(sourceAddress);
+                .notContainsEsmClass((byte) 2)
+                .containsSource(sourceAddress)
+                .notContainsSource("anotherSource");
 
     }
 
@@ -61,7 +65,21 @@ class SubmitSmListAssertTest {
                 .containsText("text2")
                 .containsEsmClass(esmClass)
         );
-        assertEquals("Expected at least one message with text <text2> but no one find", assertionError.getMessage());
+        assertEquals("Expected at least one message with text <text2> but no one find",
+                assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnNotText() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .containsDest(destAddress)
+                .containsSource(sourceAddress)
+                .containsText(text)
+                .notContainsText(text)
+                .containsEsmClass(esmClass)
+        );
+        assertEquals("Expected no one message with text <messageText> but found",
+                assertionError.getMessage());
     }
 
     @Test
@@ -71,7 +89,20 @@ class SubmitSmListAssertTest {
                 .containsText(text)
                 .containsEsmClass(esmClass)
                 .containsSource("otherSource"));
-        assertEquals("Expected at least one message with source address <otherSource> but no one find", assertionError.getMessage());
+        assertEquals("Expected at least one message with source address <otherSource> but no one find",
+                assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnNotSourceAddress() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .containsDest(destAddress)
+                .containsText(text)
+                .containsEsmClass(esmClass)
+                .containsSource(sourceAddress)
+                .notContainsSource(sourceAddress));
+        assertEquals("Expected no one message with source address <source> but found",
+                assertionError.getMessage());
     }
 
     @Test
@@ -81,7 +112,20 @@ class SubmitSmListAssertTest {
                 .containsText(text)
                 .containsEsmClass(esmClass)
                 .containsSource(sourceAddress));
-        assertEquals("Expected at least one message with dest address <otherDest> but no one find", assertionError.getMessage());
+        assertEquals("Expected at least one message with dest address <otherDest> but no one find",
+                assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnNotDestAddress() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .containsDest(destAddress)
+                .notContainsDest(destAddress)
+                .containsText(text)
+                .containsEsmClass(esmClass)
+                .containsSource(sourceAddress));
+        assertEquals("Expected no one message with dest address <destination> but found",
+                assertionError.getMessage());
     }
 
     @Test
@@ -91,6 +135,19 @@ class SubmitSmListAssertTest {
                 .containsText(text)
                 .containsEsmClass((byte) 2)
                 .containsSource(sourceAddress));
-        assertEquals("Expected at least one message with esm class <2> but no one find", assertionError.getMessage());
+        assertEquals("Expected at least one message with esm class <2> but no one find",
+                assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnNotEsmClass() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .containsDest(destAddress)
+                .containsText(text)
+                .containsEsmClass(esmClass)
+                .notContainsEsmClass(esmClass)
+                .containsSource(sourceAddress));
+        assertEquals("Expected no one message with esm class <1> but found",
+                assertionError.getMessage());
     }
 }

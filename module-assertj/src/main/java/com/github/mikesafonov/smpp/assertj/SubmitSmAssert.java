@@ -26,11 +26,30 @@ public class SubmitSmAssert extends AbstractAssert<SubmitSmAssert, SubmitSm> {
         return this;
     }
 
+    public SubmitSmAssert doesNotHaveEsmClass(byte esmClass) {
+        isNotNull();
+        byte actualEsmClass = actual.getEsmClass();
+        if (actualEsmClass == esmClass) {
+            failWithMessage("Expected esm class <%s> not equals to <%s>",
+                    esmClass, actualEsmClass);
+        }
+        return this;
+    }
+
     public SubmitSmAssert hasSource(String source) {
         isNotNull();
         String address = actual.getSourceAddress().getAddress();
         if (!source.equals(address)) {
             failWithMessage("Expected source address <%s> but was <%s>", source, address);
+        }
+        return this;
+    }
+
+    public SubmitSmAssert doesNotHaveSource(String source) {
+        isNotNull();
+        String address = actual.getSourceAddress().getAddress();
+        if (source.equals(address)) {
+            failWithMessage("Expected source address <%s> not equals to <%s>", source, address);
         }
         return this;
     }
@@ -44,9 +63,21 @@ public class SubmitSmAssert extends AbstractAssert<SubmitSmAssert, SubmitSm> {
         return this;
     }
 
+    public SubmitSmAssert doesNotHaveDest(String dest) {
+        isNotNull();
+        String address = actual.getDestAddress().getAddress();
+        if (dest.equals(address)) {
+            failWithMessage("Expected dest address <%s> not equals to <%s>", dest, address);
+        }
+        return this;
+    }
+
     public SubmitSmAssert hasText(String text) {
         return hasTextWithCharset(text, CharsetUtil.CHARSET_GSM);
+    }
 
+    public SubmitSmAssert doesNotHaveText(String text) {
+        return doesNotHaveTextWithCharset(text, CharsetUtil.CHARSET_GSM);
     }
 
     public SubmitSmAssert hasTextWithCharset(String text, Charset charset) {
@@ -54,6 +85,15 @@ public class SubmitSmAssert extends AbstractAssert<SubmitSmAssert, SubmitSm> {
         String messageText = SubmitSmCharsetUtil.toText(actual, charset);
         if (!text.equals(messageText)) {
             failWithMessage("Expected text <%s> but was <%s>", text, messageText);
+        }
+        return this;
+    }
+
+    public SubmitSmAssert doesNotHaveTextWithCharset(String text, Charset charset) {
+        isNotNull();
+        String messageText = SubmitSmCharsetUtil.toText(actual, charset);
+        if (text.equals(messageText)) {
+            failWithMessage("Expected text <%s> not equals to <%s>", text, messageText);
         }
         return this;
     }
