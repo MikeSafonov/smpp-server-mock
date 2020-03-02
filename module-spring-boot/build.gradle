@@ -2,7 +2,7 @@
 dependencies {
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR2")
     implementation platform("org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE")
-    annotationProcessor platform("org.springframework.boot:spring-boot-dependencies:2.2.4.RELEASE")
+    annotationProcessor platform("org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE")
 
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -11,5 +11,5 @@ dependencies {
 
     api(project(":module-core"))
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE")
 }
