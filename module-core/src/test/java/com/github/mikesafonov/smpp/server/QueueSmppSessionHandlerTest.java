@@ -1,14 +1,11 @@
 package com.github.mikesafonov.smpp.server;
 
-import com.cloudhopper.smpp.pdu.BindReceiver;
-import com.cloudhopper.smpp.pdu.CancelSm;
-import com.cloudhopper.smpp.pdu.PduResponse;
-import com.cloudhopper.smpp.pdu.SubmitSm;
+import com.cloudhopper.smpp.pdu.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mike Safonov
@@ -40,11 +37,14 @@ class QueueSmppSessionHandlerTest {
 
             PduResponse pduResponse = handler.firePduRequestReceived(submitSm);
 
-            assertThat(pduResponse).isEqualToComparingFieldByField(submitSm.createResponse());
             assertEquals(1, handler.getReceivedPduRequests().size());
             assertEquals(1, handler.getSubmitSms().size());
             assertEquals(0, handler.getCancelSms().size());
             assertEquals(submitSm, handler.getSubmitSms().take());
+
+            SubmitSmResp resp = (SubmitSmResp) pduResponse;
+            assertNotNull(resp.getMessageId());
+            assertNotEquals("", resp.getMessageId());
         }
     }
 

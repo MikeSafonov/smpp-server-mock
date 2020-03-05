@@ -2,10 +2,7 @@ package com.github.mikesafonov.smpp.server;
 
 import com.cloudhopper.smpp.PduAsyncResponse;
 import com.cloudhopper.smpp.SmppSessionHandler;
-import com.cloudhopper.smpp.pdu.CancelSm;
-import com.cloudhopper.smpp.pdu.PduRequest;
-import com.cloudhopper.smpp.pdu.PduResponse;
-import com.cloudhopper.smpp.pdu.SubmitSm;
+import com.cloudhopper.smpp.pdu.*;
 import com.cloudhopper.smpp.type.RecoverablePduException;
 import com.cloudhopper.smpp.type.UnrecoverablePduException;
 import lombok.Getter;
@@ -13,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import static com.cloudhopper.commons.util.RandomUtil.generateString;
 
 /**
  * {@link SmppSessionHandler} for {@link MockSmppServer}.
@@ -46,7 +45,11 @@ public class QueueSmppSessionHandler implements SmppSessionHandler {
     public PduResponse firePduRequestReceived(PduRequest pduRequest) {
         receivedPduRequests.add(pduRequest);
         if (pduRequest instanceof SubmitSm) {
-            submitSms.add((SubmitSm) pduRequest);
+            SubmitSm submitSm = (SubmitSm) pduRequest;
+            submitSms.add(submitSm);
+            SubmitSmResp response = submitSm.createResponse();
+            response.setMessageId(generateString(10));
+            return response;
         }
         if (pduRequest instanceof CancelSm) {
             cancelSms.add((CancelSm) pduRequest);
