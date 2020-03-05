@@ -67,13 +67,17 @@ public class MockSmppServer {
     }
 
     public MockSmppServer(String name, int port, String systemId, String password) {
+        this(name, port, systemId, password, new MockSmppServerHandler(systemId, password));
+    }
+
+    public MockSmppServer(String name, int port, String systemId, String password, MockSmppServerHandler handler) {
         this.name = name;
         this.port = checkPortOrGetFree(port);
         this.systemId = systemId;
         this.password = password;
-        this.handler = new MockSmppServerHandler(systemId, password);
+        this.handler = handler;
         this.smppServer = new DefaultSmppServer(new MockSmppServerConfiguration(this.port, systemId),
-                handler, Executors.newCachedThreadPool());
+                this.handler, Executors.newCachedThreadPool());
     }
 
     //test only
