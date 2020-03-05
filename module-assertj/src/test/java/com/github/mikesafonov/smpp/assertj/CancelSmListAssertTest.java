@@ -39,6 +39,7 @@ class CancelSmListAssertTest {
         cancelSmAssert
                 .containsDest(destAddress)
                 .containsId(messageId)
+                .hasSize(2)
                 .containsSource(sourceAddress);
     }
 
@@ -67,5 +68,16 @@ class CancelSmListAssertTest {
                 .containsSource(sourceAddress)
                 .containsDest("otherDest"));
         assertEquals("Expected at least one message with dest address <otherDest> but no one find", assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnSize() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> cancelSmAssert
+                .containsDest(destAddress)
+                .containsId(messageId)
+                .hasSize(3)
+                .containsSource(sourceAddress));
+        assertEquals("Expected size to be <3> but actual <2>",
+                assertionError.getMessage());
     }
 }

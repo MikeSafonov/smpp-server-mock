@@ -53,6 +53,7 @@ class SubmitSmListAssertTest {
                 .containsEsmClass(esmClass)
                 .notContainsEsmClass((byte) 2)
                 .containsSource(sourceAddress)
+                .hasSize(2)
                 .notContainsSource("anotherSource");
 
     }
@@ -148,6 +149,17 @@ class SubmitSmListAssertTest {
                 .notContainsEsmClass(esmClass)
                 .containsSource(sourceAddress));
         assertEquals("Expected no one message with esm class <1> but found",
+                assertionError.getMessage());
+    }
+
+    @Test
+    void shouldFailOnSize() {
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .containsDest(destAddress)
+                .containsText(text)
+                .hasSize(3)
+                .containsSource(sourceAddress));
+        assertEquals("Expected size to be <3> but actual <2>",
                 assertionError.getMessage());
     }
 }

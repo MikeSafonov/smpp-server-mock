@@ -10,6 +10,16 @@ public class CancelSmListAssert extends AbstractAssert<CancelSmListAssert, List<
         super(cancelSm, CancelSmListAssert.class);
     }
 
+    public CancelSmListAssert hasSize(int size) {
+        isNotNull();
+        int actualSize = actual.size();
+        if (actualSize != size) {
+            failWithMessage("Expected size to be <%s> but actual <%s>",
+                    size, actualSize);
+        }
+        return this;
+    }
+
     public CancelSmListAssert containsId(String smscId) {
         isNotNull();
         if (!containByMessageId(smscId)) {

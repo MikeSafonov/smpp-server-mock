@@ -15,6 +15,16 @@ public class SubmitSmListAssert extends AbstractAssert<SubmitSmListAssert, List<
         super(submitSms, SubmitSmListAssert.class);
     }
 
+    public SubmitSmListAssert hasSize(int size) {
+        isNotNull();
+        int actualSize = actual.size();
+        if (actualSize != size) {
+            failWithMessage("Expected size to be <%s> but actual <%s>",
+                    size, actualSize);
+        }
+        return this;
+    }
+
     public SubmitSmListAssert containsEsmClass(byte esmClass) {
         isNotNull();
         if (!containByEsmClass(esmClass)) {
