@@ -41,6 +41,13 @@ public class MockSmppServerHolder {
     }
 
     /**
+     * Clear all request from all servers
+     */
+    public void clearAll() {
+        servers.forEach(MockSmppServer::clearRequests);
+    }
+
+    /**
      * @return true if all servers started
      */
     public boolean isAllStarted() {

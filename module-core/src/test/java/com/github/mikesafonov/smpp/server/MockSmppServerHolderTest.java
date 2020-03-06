@@ -49,6 +49,23 @@ class MockSmppServerHolderTest {
     }
 
     @Nested
+    class ClearAll {
+        @Test
+        void shouldClearAll() {
+            List<MockSmppServer> servers = new ArrayList<>();
+            MockSmppServer one = mock(MockSmppServer.class);
+            MockSmppServer two = mock(MockSmppServer.class);
+            servers.add(one);
+            servers.add(two);
+
+            new MockSmppServerHolder(servers).clearAll();
+
+            verify(one, times(1)).clearRequests();
+            verify(two, times(1)).clearRequests();
+        }
+    }
+
+    @Nested
     class IsAllStarted {
         @Test
         void shouldReturnTrueBecauseAllStarted() {
