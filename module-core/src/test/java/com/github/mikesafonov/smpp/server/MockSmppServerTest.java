@@ -180,4 +180,24 @@ class MockSmppServerTest {
             assertEquals("Smpp server[name: server, port: 2000, systemId: systemId]", server.getDescription());
         }
     }
+
+    @Nested
+    class ClearRequests {
+        @Test
+        void shouldRemoveAllRequests() {
+            DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
+            MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
+            QueueSmppSessionHandler queueSmppSessionHandler = mock(QueueSmppSessionHandler.class);
+            String systemId = "customId";
+            String password = "customPassword";
+            int port = 3000;
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
+
+            when(handler.getSessionHandler()).thenReturn(queueSmppSessionHandler);
+
+            server.clearRequests();
+
+            verify(queueSmppSessionHandler).clear();
+        }
+    }
 }

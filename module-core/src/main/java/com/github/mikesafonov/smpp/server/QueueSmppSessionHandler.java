@@ -36,6 +36,12 @@ public class QueueSmppSessionHandler implements SmppSessionHandler {
         return receivedPduRequests.size();
     }
 
+    public void clear(){
+        receivedPduRequests.clear();
+        submitSms.clear();
+        cancelSms.clear();
+    }
+
     @Override
     public void fireChannelUnexpectedlyClosed() {
         // nothing

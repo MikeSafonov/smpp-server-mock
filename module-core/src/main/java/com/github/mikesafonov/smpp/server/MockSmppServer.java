@@ -82,7 +82,7 @@ public class MockSmppServer {
 
     //test only
     MockSmppServer(int port, String systemId, String password,
-                          MockSmppServerHandler handler, DefaultSmppServer smppServer) {
+                   MockSmppServerHandler handler, DefaultSmppServer smppServer) {
         this.name = randomUuidName();
         this.port = port;
         this.systemId = systemId;
@@ -116,6 +116,13 @@ public class MockSmppServer {
 
     public int getCountRequests() {
         return handler.getSessionHandler().countTotalMessages();
+    }
+
+    /**
+     * Delete all incoming requests
+     */
+    public void clearRequests() {
+        handler.getSessionHandler().clear();
     }
 
     /**

@@ -64,4 +64,25 @@ class QueueSmppSessionHandlerTest {
             assertEquals(cancelSm, handler.getCancelSms().take());
         }
     }
+
+    @Nested
+    class Clear {
+        @Test
+        void shouldRemoveAllRequests(){
+            QueueSmppSessionHandler handler = new QueueSmppSessionHandler();
+            BindReceiver bindReceiver = new BindReceiver();
+            CancelSm cancelSm = new CancelSm();
+            SubmitSm submitSm = new SubmitSm();
+
+            handler.firePduRequestReceived(bindReceiver);
+            handler.firePduRequestReceived(cancelSm);
+            handler.firePduRequestReceived(submitSm);
+
+            handler.clear();
+
+            assertThat(handler.getCancelSms()).isEmpty();
+            assertThat(handler.getReceivedPduRequests()).isEmpty();
+            assertThat(handler.getSubmitSms()).isEmpty();
+        }
+    }
 }
