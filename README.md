@@ -97,6 +97,10 @@ public class MyTest {
 }
 ```
 
+You may set `clearAfterTest` to `true` in `SmppServer` if you want to clear all incoming requests after each test run.
+
+`By default` `clearAfterTest` is `false`. 
+
 ## Using AssertJ assertions
 
 `com.github.mikesafonov:smpp-server-mock-assertj` helps to write more intuitive assertions for SMPP objects.  
