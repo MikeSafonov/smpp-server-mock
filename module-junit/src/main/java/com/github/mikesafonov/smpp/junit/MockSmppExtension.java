@@ -1,10 +1,7 @@
 package com.github.mikesafonov.smpp.junit;
 
 import com.github.mikesafonov.smpp.server.MockSmppServer;
-import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.util.AnnotationUtils;
 
 import java.lang.reflect.Field;
@@ -14,10 +11,12 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MockSmppExtension implements TestInstancePostProcessor, AfterAllCallback, BeforeEachCallback {
+public class MockSmppExtension implements
+        TestInstancePostProcessor, AfterAllCallback,
+        BeforeEachCallback, AfterEachCallback {
     private static final Logger logger = Logger.getLogger(MockSmppExtension.class.getName());
 
-    private final Set<MockSmppServer> smppServers = new HashSet<>();
+    private final Set<Server> smppServers = new HashSet<>();
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws IllegalAccessException {
@@ -30,11 +29,29 @@ public class MockSmppExtension implements TestInstancePostProcessor, AfterAllCal
 
     @Override
     public void afterAll(ExtensionContext context) {
-        for (MockSmppServer smppServer : smppServers) {
-            logger.info("Stopping " + smppServer.getDescription());
-            smppServer.stop();
-            logger.info(smppServer.getDescription() + " stopped");
+        for (Server smppServer : smppServers) {
+            logger.info("Stopping " + smppServer.value.getDescription());
+            smppServer.value.stop();
+            logger.info(smppServer.value.getDescription() + " stopped");
         }
+    }
+
+    @Override
+    public void beforeEach(ExtensionContext context) {
+        for (Server smppServer : smppServers) {
+            logger.info("Starting " + smppServer.value.getDescription());
+            smppServer.value.start();
+            logger.info(smppServer.value.getDescription() + " started");
+        }
+    }
+
+    @Override
+    public void afterEach(ExtensionContext context) {
+        smppServers.forEach(server -> {
+            if (server.config.clearAfterTest()) {
+                server.value.clearRequests();
+            }
+        });
     }
 
     private void createServer(Object testInstance, Field field) throws IllegalAccessException {
@@ -46,21 +63,22 @@ public class MockSmppExtension implements TestInstancePostProcessor, AfterAllCal
             logger.log(Level.INFO, "Creating server on port: {0} with systemId: {1}", new Object[]{port, annotation.systemId()});
             server = new MockSmppServer(port, annotation.systemId(), annotation.password());
         } else {
-            logger.log(Level.INFO,"Creating server {0} on port: {1} with systemId: {2}", new Object[]{name, port, annotation.systemId()});
+            logger.log(Level.INFO, "Creating server {0} on port: {1} with systemId: {2}", new Object[]{name, port, annotation.systemId()});
             server = new MockSmppServer(name, port, annotation.systemId(), annotation.password());
         }
 
-        smppServers.add(server);
+        smppServers.add(new Server(annotation, server));
         field.setAccessible(true);
         field.set(testInstance, server);
     }
 
-    @Override
-    public void beforeEach(ExtensionContext context) {
-        for (MockSmppServer smppServer : smppServers) {
-            logger.info("Starting " + smppServer.getDescription());
-            smppServer.start();
-            logger.info(smppServer.getDescription() + " started");
+    private static class Server {
+        private SmppServer config;
+        private MockSmppServer value;
+
+        public Server(SmppServer config, MockSmppServer server) {
+            this.config = config;
+            this.value = server;
         }
     }
 }

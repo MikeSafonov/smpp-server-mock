@@ -15,4 +15,6 @@ public @interface SmppServer {
     String password() default MockSmppServer.DEFAULT_PASSWORD;
 
     int port() default MockSmppServer.RANDOM_PORT;
+
+    boolean clearAfterTest() default false;
 }
