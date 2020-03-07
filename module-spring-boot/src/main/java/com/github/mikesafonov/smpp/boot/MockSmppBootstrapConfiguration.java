@@ -41,6 +41,7 @@ public class MockSmppBootstrapConfiguration {
     private void registerEnvironment(List<MockSmppServer> servers, ConfigurableEnvironment environment) {
         LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         servers.forEach(server -> {
+            map.put("smpp.mocks." + server.getName() + ".host", server.getHost());
             map.put("smpp.mocks." + server.getName() + ".port", server.getPort());
             map.put("smpp.mocks." + server.getName() + ".password", server.getPassword());
             map.put("smpp.mocks." + server.getName() + ".systemId", server.getSystemId());

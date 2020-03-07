@@ -280,6 +280,8 @@ The starter consumes properties:
 
 The starter produces properties:
 
+`smpp.mocks.<server name>.host` (always `localhost`) 
+
 `smpp.mocks.<server name>.port` 
 
 `smpp.mocks.<server name>.password`
@@ -297,7 +299,7 @@ smpp.mocks.one.system-id=user
 **application.properties**:
 ```properties
 # some properties to smpp connection in your app
-my.smpp.connection.host=localhost
+my.smpp.connection.host=${smpp.mocks.one.host}
 my.smpp.connection.port=${smpp.mocks.one.port}
 my.smpp.connection.password=${smpp.mocks.one.password}
 my.smpp.connection.systemId=${smpp.mocks.one.system-id}
