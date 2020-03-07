@@ -20,6 +20,7 @@ import static com.github.mikesafonov.smpp.server.Utils.randomUuidName;
  * @author Mike Safonov
  */
 public class MockSmppServer {
+    private static final String HOST = "localhost";
     public static final int RANDOM_PORT = -1;
 
     public static final String DEFAULT_SYSTEM_ID = "mockSmppServer";
@@ -151,5 +152,12 @@ public class MockSmppServer {
      */
     public String getDescription() {
         return "Smpp server[name: " + name + ", port: " + port + ", systemId: " + systemId + "]";
+    }
+
+    /**
+     * @return always localhost
+     */
+    public String getHost(){
+        return HOST;
     }
 }

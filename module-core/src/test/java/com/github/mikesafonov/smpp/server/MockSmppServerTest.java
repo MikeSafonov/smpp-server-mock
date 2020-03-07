@@ -200,4 +200,17 @@ class MockSmppServerTest {
             verify(queueSmppSessionHandler).clear();
         }
     }
+
+    @Nested
+    class GetHost{
+        @Test
+        void shouldReturnLocalhost(){
+            String smppName = "smppName";
+            String systemId = "customId";
+            String password = "customPassword";
+            MockSmppServer server = new MockSmppServer(smppName, systemId, password);
+
+            assertEquals("localhost", server.getHost());
+        }
+    }
 }
