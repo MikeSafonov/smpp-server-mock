@@ -1,46 +1,26 @@
 package com.github.mikesafonov.smpp.server;
 
 import com.cloudhopper.smpp.PduAsyncResponse;
+import com.cloudhopper.smpp.SmppConstants;
 import com.cloudhopper.smpp.SmppSessionHandler;
 import com.cloudhopper.smpp.pdu.*;
 import com.cloudhopper.smpp.type.RecoverablePduException;
 import com.cloudhopper.smpp.type.UnrecoverablePduException;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.CompletableFuture;
 
 import static com.cloudhopper.commons.util.RandomUtil.generateString;
 
-/**
- * {@link SmppSessionHandler} for {@link MockSmppServer}.
- *
- * @author Mike Safonov
- */
 @Slf4j
-@Getter
-public class QueueSmppSessionHandler implements SmppSessionHandler {
-
-    private final BlockingQueue<PduRequest> receivedPduRequests;
-    private final BlockingQueue<SubmitSm> submitSms;
-    private final BlockingQueue<CancelSm> cancelSms;
-
-    public QueueSmppSessionHandler() {
-        this.receivedPduRequests = new LinkedBlockingQueue<>();
-        this.submitSms = new LinkedBlockingQueue<>();
-        this.cancelSms = new LinkedBlockingQueue<>();
-    }
-
-    public int countTotalMessages() {
-        return receivedPduRequests.size();
-    }
-
-    public void clear(){
-        receivedPduRequests.clear();
-        submitSms.clear();
-        cancelSms.clear();
-    }
+@EqualsAndHashCode
+@AllArgsConstructor
+public class SmppSessionHandlerImpl implements SmppSessionHandler {
+    private final SmppRequestsQueue smppRequestsQueue;
+    private final DeliverSmGenerator deliverSmGenerator;
+    private final ResponseSessionHolder responseSessionHolder;
 
     @Override
     public void fireChannelUnexpectedlyClosed() {
@@ -49,16 +29,20 @@ public class QueueSmppSessionHandler implements SmppSessionHandler {
 
     @Override
     public PduResponse firePduRequestReceived(PduRequest pduRequest) {
-        receivedPduRequests.add(pduRequest);
+        smppRequestsQueue.getReceivedPduRequests().add(pduRequest);
         if (pduRequest instanceof SubmitSm) {
             SubmitSm submitSm = (SubmitSm) pduRequest;
-            submitSms.add(submitSm);
+            smppRequestsQueue.getSubmitSms().add(submitSm);
             SubmitSmResp response = submitSm.createResponse();
-            response.setMessageId(generateString(10));
+            String messageId = generateString(10);
+            response.setMessageId(messageId);
+            if (isRegisteredDeliveryReport(submitSm)) {
+                sendDeliverySm(submitSm, messageId);
+            }
             return response;
         }
         if (pduRequest instanceof CancelSm) {
-            cancelSms.add((CancelSm) pduRequest);
+            smppRequestsQueue.getCancelSms().add((CancelSm) pduRequest);
         }
         return pduRequest.createResponse();
     }
@@ -101,5 +85,24 @@ public class QueueSmppSessionHandler implements SmppSessionHandler {
     @Override
     public String lookupTlvTagName(short tag) {
         return null;
+    }
+
+
+    private boolean isRegisteredDeliveryReport(SubmitSm submitSm) {
+        return submitSm.getRegisteredDelivery() == SmppConstants.REGISTERED_DELIVERY_SMSC_RECEIPT_REQUESTED;
+    }
+
+    private void sendDeliverySm(SubmitSm submitSm, String messageId) {
+        if(responseSessionHolder.getSessions().isEmpty()){
+            return;
+        }
+        DeliverSm deliverSm = deliverSmGenerator.generate(submitSm, messageId);
+        responseSessionHolder.getSessions().forEach(s -> CompletableFuture.runAsync(() -> {
+            try {
+                s.sendRequestPdu(deliverSm, 1000, true);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }));
     }
 }

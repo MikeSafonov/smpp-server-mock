@@ -18,19 +18,22 @@ public class MockSmppServerHandler implements SmppServerHandler {
     @Getter
     private final Set<SmppServerSession> sessions;
     @Getter
-    private final QueueSmppSessionHandler sessionHandler;
+    private final SmppRequestsQueue sessionHandler;
     private final String systemId;
     private final String password;
+    private final ResponseSessionHolder responseSessionHolder;
 
     public MockSmppServerHandler(String systemId, String password) {
-        this(systemId, password, new QueueSmppSessionHandler());
+        this(systemId, password, new SmppRequestsQueue(), new ResponseSessionHolder());
     }
 
-    public MockSmppServerHandler(String systemId, String password, QueueSmppSessionHandler sessionHandler) {
+    public MockSmppServerHandler(String systemId, String password,
+                                 SmppRequestsQueue sessionHandler, ResponseSessionHolder responseSessionHolder) {
         this.systemId = systemId;
         this.password = password;
         this.sessions = new HashSet<>();
         this.sessionHandler = sessionHandler;
+        this.responseSessionHolder = responseSessionHolder;
     }
 
     /**
@@ -58,7 +61,11 @@ public class MockSmppServerHandler implements SmppServerHandler {
     @Override
     public void sessionCreated(Long sessionId, SmppServerSession session, BaseBindResp preparedBindResponse) {
         sessions.add(session);
-        session.serverReady(sessionHandler);
+        if (isSessionSupportResponse(session)) {
+            responseSessionHolder.add(session);
+        }
+        session.serverReady(new SmppSessionHandlerImpl(sessionHandler,
+                new DefaultDeliverSmGenerator(), responseSessionHolder));
     }
 
     /**
@@ -70,6 +77,8 @@ public class MockSmppServerHandler implements SmppServerHandler {
     @Override
     public void sessionDestroyed(Long sessionId, SmppServerSession session) {
         sessions.remove(session);
+        responseSessionHolder.remove(session);
+        session.destroy();
     }
 
     private void verifySystemId(String incomingSystemId) throws SmppProcessingException {
@@ -82,5 +91,11 @@ public class MockSmppServerHandler implements SmppServerHandler {
         if (!password.equals(incomingPassword)) {
             throw new SmppProcessingException(SmppConstants.STATUS_INVPASWD);
         }
+    }
+
+    private boolean isSessionSupportResponse(SmppServerSession session) {
+        SmppSessionConfiguration configuration = session.getConfiguration();
+        return configuration.getType() == SmppBindType.RECEIVER ||
+                configuration.getType() == SmppBindType.TRANSCEIVER;
     }
 }
