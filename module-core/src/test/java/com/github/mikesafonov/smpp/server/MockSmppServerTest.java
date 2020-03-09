@@ -1,11 +1,19 @@
 package com.github.mikesafonov.smpp.server;
 
 import com.cloudhopper.smpp.impl.DefaultSmppServer;
+import com.cloudhopper.smpp.pdu.CancelSm;
+import com.cloudhopper.smpp.pdu.PduRequest;
+import com.cloudhopper.smpp.pdu.SubmitSm;
 import com.cloudhopper.smpp.type.SmppChannelException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -187,30 +195,122 @@ class MockSmppServerTest {
         void shouldRemoveAllRequests() {
             DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
             MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
-            QueueSmppSessionHandler queueSmppSessionHandler = mock(QueueSmppSessionHandler.class);
+            SmppRequestsQueue smppRequestsQueue = mock(SmppRequestsQueue.class);
             String systemId = "customId";
             String password = "customPassword";
             int port = 3000;
             MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
 
-            when(handler.getSessionHandler()).thenReturn(queueSmppSessionHandler);
+            when(handler.getSessionHandler()).thenReturn(smppRequestsQueue);
 
             server.clearRequests();
 
-            verify(queueSmppSessionHandler).clear();
+            verify(smppRequestsQueue).clear();
         }
     }
 
     @Nested
-    class GetHost{
+    class GetHost {
         @Test
-        void shouldReturnLocalhost(){
+        void shouldReturnLocalhost() {
             String smppName = "smppName";
             String systemId = "customId";
             String password = "customPassword";
             MockSmppServer server = new MockSmppServer(smppName, systemId, password);
 
             assertEquals("localhost", server.getHost());
+        }
+    }
+
+    @Nested
+    class GetCountRequests {
+        @Test
+        void shouldReturnExpectedCount() {
+            int count = ThreadLocalRandom.current().nextInt();
+            DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
+            MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
+            SmppRequestsQueue smppRequestsQueue = mock(SmppRequestsQueue.class);
+            String systemId = "customId";
+            String password = "customPassword";
+            int port = 3000;
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
+
+            when(handler.getSessionHandler()).thenReturn(smppRequestsQueue);
+            when(smppRequestsQueue.countTotalMessages()).thenReturn(count);
+
+            assertEquals(count, server.getCountRequests());
+        }
+    }
+
+    @Nested
+    class GetRequests {
+        @Test
+        void shouldReturnExpectedList() {
+            DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
+            MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
+            SmppRequestsQueue smppRequestsQueue = mock(SmppRequestsQueue.class);
+            String systemId = "customId";
+            String password = "customPassword";
+            int port = 3000;
+            List<PduRequest> pduRequests = Arrays.asList(
+                    mock(PduRequest.class), mock(PduRequest.class)
+            );
+            BlockingDeque<PduRequest> deque = new LinkedBlockingDeque<>(pduRequests);
+
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
+
+            when(handler.getSessionHandler()).thenReturn(smppRequestsQueue);
+            when(smppRequestsQueue.getReceivedPduRequests()).thenReturn(deque);
+
+            assertEquals(pduRequests, server.getRequests());
+        }
+    }
+
+    @Nested
+    class GetSubmitSmMessages {
+        @Test
+        void shouldReturnExpectedList() {
+            DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
+            MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
+            SmppRequestsQueue smppRequestsQueue = mock(SmppRequestsQueue.class);
+            String systemId = "customId";
+            String password = "customPassword";
+            int port = 3000;
+            List<SubmitSm> requests = Arrays.asList(
+                    mock(SubmitSm.class), mock(SubmitSm.class)
+            );
+            BlockingDeque<SubmitSm> deque = new LinkedBlockingDeque<>(requests);
+
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
+
+            when(handler.getSessionHandler()).thenReturn(smppRequestsQueue);
+            when(smppRequestsQueue.getSubmitSms()).thenReturn(deque);
+
+            assertEquals(requests, server.getSubmitSmMessages());
+        }
+    }
+
+    @Nested
+    class GetCancelSmMessages {
+        @Test
+        void shouldReturnExpectedList() {
+            DefaultSmppServer defaultSmppServer = mock(DefaultSmppServer.class);
+            MockSmppServerHandler handler = mock(MockSmppServerHandler.class);
+            SmppRequestsQueue smppRequestsQueue = mock(SmppRequestsQueue.class);
+            String systemId = "customId";
+            String password = "customPassword";
+            int port = 3000;
+            List<CancelSm> requests = Arrays.asList(
+                    mock(CancelSm.class), mock(CancelSm.class)
+            );
+            BlockingDeque<CancelSm> deque = new LinkedBlockingDeque<>(requests);
+
+            MockSmppServer server = new MockSmppServer(port, systemId, password, handler, defaultSmppServer);
+
+            when(handler.getSessionHandler()).thenReturn(smppRequestsQueue);
+            when(smppRequestsQueue.getCancelSms()).thenReturn(deque);
+
+            assertEquals(requests, server.getCancelSmMessages());
         }
     }
 }
