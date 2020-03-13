@@ -20,6 +20,14 @@ public class CancelSmListAssert extends AbstractAssert<CancelSmListAssert, List<
         return this;
     }
 
+    public CancelSmListAssert isEmpty() {
+        isNotNull();
+        if (!actual.isEmpty()) {
+            failWithMessage(MessageUtils.cancelSmShouldBeEmpty(actual));
+        }
+        return this;
+    }
+
     public CancelSmListAssert containsId(String smscId) {
         isNotNull();
         if (!containByMessageId(smscId)) {

@@ -25,6 +25,14 @@ public class SubmitSmListAssert extends AbstractAssert<SubmitSmListAssert, List<
         return this;
     }
 
+    public SubmitSmListAssert isEmpty() {
+        isNotNull();
+        if (!actual.isEmpty()) {
+            failWithMessage(MessageUtils.submitSmShouldBeEmpty(actual));
+        }
+        return this;
+    }
+
     public SubmitSmListAssert containsEsmClass(byte esmClass) {
         isNotNull();
         if (!containByEsmClass(esmClass)) {

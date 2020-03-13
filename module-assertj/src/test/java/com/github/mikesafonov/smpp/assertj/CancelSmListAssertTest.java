@@ -44,6 +44,20 @@ class CancelSmListAssertTest {
     }
 
     @Test
+    void shouldFailIfNotEmpty(){
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> cancelSmAssert
+                .containsDest(destAddress)
+                .containsId(messageId)
+                .isEmpty()
+                .containsSource(sourceAddress));
+        assertEquals("Expected to be empty\n" +
+                        "Actual messages:\n" +
+                        "id: messageId source: source dest: destination\n" +
+                        "id: messageId source: source dest: destination",
+                assertionError.getMessage());
+    }
+
+    @Test
     void shouldFailOnMessageId() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> cancelSmAssert
                 .containsId("otherId")

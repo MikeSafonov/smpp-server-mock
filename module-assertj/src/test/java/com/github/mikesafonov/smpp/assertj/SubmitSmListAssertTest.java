@@ -84,6 +84,19 @@ class SubmitSmListAssertTest {
     }
 
     @Test
+    void shouldFailIfNotEmpty(){
+        AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
+                .containsDest(destAddress)
+                .isEmpty()
+                .containsSource(sourceAddress));
+        assertEquals("Expected to be empty\n" +
+                        "Actual messages:\n" +
+                        "source: source dest: destination text: messageText\n" +
+                        "source: source dest: destination text: messageText",
+                assertionError.getMessage());
+    }
+
+    @Test
     void shouldFailOnSourceAddress() {
         AssertionError assertionError = assertThrows(AssertionError.class, () -> submitSmAssert
                 .containsDest(destAddress)
