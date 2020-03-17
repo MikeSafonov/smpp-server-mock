@@ -5,11 +5,10 @@ import com.cloudhopper.smpp.pdu.CancelSm;
 import com.cloudhopper.smpp.pdu.PduRequest;
 import com.cloudhopper.smpp.pdu.SubmitSm;
 import com.cloudhopper.smpp.type.SmppChannelException;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
+import lombok.Getter;
 
 import static com.github.mikesafonov.smpp.server.Utils.checkPortOrGetFree;
 import static com.github.mikesafonov.smpp.server.Utils.randomUuidName;
@@ -34,6 +33,7 @@ public class MockSmppServer {
     private final String systemId;
     @Getter
     private final String password;
+    @Getter
     private final MockSmppServerHandler handler;
     private final DefaultSmppServer smppServer;
     @Getter
