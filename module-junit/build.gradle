@@ -1,4 +1,4 @@
 dependencies {
-    compileOnly("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    compileOnly("org.junit.jupiter:junit-jupiter-api:5.6.1")
     api(project(":module-core"))
 }
