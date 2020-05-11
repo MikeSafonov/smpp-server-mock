@@ -1,4 +1,4 @@
 dependencies {
-    compileOnly("org.assertj:assertj-core:3.16.0")
+    compileOnly("org.assertj:assertj-core:3.16.1")
     api(project(":module-core"))
 }
