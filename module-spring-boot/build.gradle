@@ -14,7 +14,7 @@ configurations {
 }
 
 dependencies {
-    implementation platform("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR9")
     implementation platform("org.springframework.boot:spring-boot-dependencies:2.3.5.RELEASE")
     annotationProcessor platform("org.springframework.boot:spring-boot-dependencies:2.3.5.RELEASE")
 
