@@ -25,7 +25,7 @@ dependencies {
 
     api(project(":module-core"))
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.3.5.RELEASE")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.4.0")
 
     testIntegrationImplementation 'org.awaitility:awaitility:4.0.3'
     testIntegrationImplementation("org.springframework.cloud:spring-cloud-starter")
