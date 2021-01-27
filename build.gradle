@@ -7,7 +7,7 @@ buildscript {
     configurations.maybeCreate("pitest")
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.1.1"
-        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.9"
+        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.5.2"
         pitest "org.pitest:pitest-junit5-plugin:0.12"
     }
 }
