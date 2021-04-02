@@ -41,8 +41,8 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("org.projectlombok:lombok:1.18.18")
-        annotationProcessor("org.projectlombok:lombok:1.18.10")
+        compileOnly("org.projectlombok:lombok:1.18.20")
+        annotationProcessor("org.projectlombok:lombok:1.18.20")
 
         testImplementation("org.assertj:assertj-core:3.19.0")
         testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
