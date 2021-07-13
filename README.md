@@ -1,6 +1,4 @@
 # smpp-server-mock
-[![codecov](https://codecov.io/gh/MikeSafonov/smpp-server-mock/branch/master/graph/badge.svg)](https://codecov.io/gh/MikeSafonov/smpp-server-mock)
-[![Travis-CI](https://travis-ci.com/MikeSafonov/smpp-server-mock.svg?branch=master)](https://travis-ci.com/MikeSafonov/smpp-server-mock)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MikeSafonov_smpp-server-mock&metric=alert_status)](https://sonarcloud.io/dashboard?id=MikeSafonov_smpp-server-mock)
