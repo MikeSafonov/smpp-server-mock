@@ -29,7 +29,7 @@ dependencies {
 
     testIntegrationImplementation 'org.awaitility:awaitility:4.1.0'
     testIntegrationImplementation("org.springframework.cloud:spring-cloud-starter")
-    testIntegrationImplementation("com.github.mikesafonov:spring-boot-starter-smpp:1.0.0")
+    testIntegrationImplementation("com.github.mikesafonov:spring-boot-starter-smpp:1.4.0")
 }
 
 
