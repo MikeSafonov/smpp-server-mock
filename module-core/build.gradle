@@ -2,5 +2,5 @@ dependencies {
     api("org.restcomm.smpp:ch-smpp:5.1.0-113")
     api("org.restcomm.smpp:ch-commons-gsm:7.0.6")
 
-    testImplementation 'org.awaitility:awaitility:4.1.0'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
 }
